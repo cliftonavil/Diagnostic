@@ -1,0 +1,20 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+<p><form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+</form></p>
+<ul>
+    {% for user in filter.qs %}
+    {{ user.app_code }}<br/>
+    {{ user.app_name }}<br/>
+    {% endfor %}
+    {% if not filter.qs %}
+    <p>No results found.</p>
+    {% endif %}
+</ul>
+
+
+
+{% endblock %}

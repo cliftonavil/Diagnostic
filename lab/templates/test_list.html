@@ -1,0 +1,44 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<br/>
+<center><h2>Test List</h2></center>
+<div class="row"style="margin-left:-5%;">
+    <div class="container">
+        <table class="table" style="width:80%">
+            <thead>
+                <tr>
+                    <th><center>Sl.no</center></th>
+                    <th><center>Test Name</center></th>
+                    <th><center>Code</center></th>
+                    <th><center>Reference Value</center></th>
+                    <th><center>Units</center></th>
+                    <th><center>Availablity</center></th>
+                    <th><center>Rate</center></th>
+                    <th><center>GST</center></th>
+                </tr>
+            </a>
+            </thead>
+            {% for i in data %}
+            <tbody>
+            <tr>
+                <td><center>{{ forloop.counter }}</center></td>
+                <td><center>{{ i.Name }}</center></td>
+                <td><center>{{ i.Code }}</center></td>
+                <td><center>{{ i.Referance }}</center></td>
+                <td><center>{{ i.Unit }}</center></td>
+                {% if i.availablity_status == "available" %}
+                <td class="text-success"><center>Available</center></td>
+                {% else %}
+                <td class="text-danger"><center>Not Available</center></td>
+                {% endif %}
+
+                <td><center>{{ i.Rate}}</center></td>
+                <td><center>{{ i.GST}}%</center></td>
+                <td><a href="{{i.id}}"><center>View</center></a></td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

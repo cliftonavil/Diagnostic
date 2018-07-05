@@ -1,0 +1,37 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<br/>
+<center><h2>Past Appointments</h2></center>
+<div class="row" style="margin-left:0%;">
+    {%for i in past %}
+    <a href="#">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <div class="caption">
+                    <table style="width:100%">
+                        <tr>
+                            <h3>
+                                <th>Name:</th>
+                                <th>{{i.Name}}</th>
+                            </h3>
+                        </tr>
+                        <tr>
+                            <td>Jill:</td>
+                            <td>{{i.Age}}</td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td>{{i.Date|date:"d-m-Y"}}</td>
+                        </tr>
+                        <tr>
+                            <td>Time</td>
+                            <td>{{i.Time}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </a>
+    {%endfor%}
+</div>
+{% endblock %}

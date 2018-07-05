@@ -1,0 +1,57 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<br/>
+<center><h2>Dashboard</h2></center>
+<div class="row" style="margin-left:0%;">
+    <a href="/todays_appointments">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <center><div class="caption">Total Todays Appointments</div> </center>
+                <table style="width:100%">
+                    <tr>
+                        <center>
+                            <h1>
+                                {{ todays_count }}
+                            </h1>
+                        </center>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </a>
+    <a href="/Testlist">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <center><div class="caption">Total Tests Available</div> </center>
+                <table style="width:100%">
+                    <tr>
+                        <center>
+                            <h1>
+                                 {{ test_count }}
+                            </h1>
+                        </center>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </a>
+    <a href="#">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <center><div class="caption">Todays Revenue</div> </center>
+                <table style="width:100%">
+                    <tr>
+                        <center>
+                            <h1>
+                                xx
+                            </h1>
+                        </center>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </a>
+</div>
+{% endblock %}
