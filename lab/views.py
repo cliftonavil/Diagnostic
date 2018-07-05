@@ -5,7 +5,6 @@ from lab.filters import UserFilter
 from lab.models import Appointment, Test
 import datetime
 
-
 #
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")

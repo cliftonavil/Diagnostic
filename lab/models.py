@@ -1,28 +1,31 @@
 import datetime
 
+from django.core.validators import RegexValidator
 from django.db import models
 # Create your models here.
 
-def increment_code():
-    last_app_code = Appointment.objects.all().order_by('id').last()
-    if not last_app_code:
-        return 'RNH' + str(datetime.date.today().year) + str(datetime.date.today().month).zfill(2) + '0000'
-        app_code = last_app_code.app_code
-    booking_int = int(app_code[9:13])
-    new_booking_int = booking_int + 1
-    new_booking_id = 'RNH' + str(str(datetime.date.today().year)) + str(datetime.date.today().month).zfill(2) + str(
-        new_booking_int).zfill(4)
-    return new_booking_id
+def increment_invoice_number():
+    last_invoice = Appointment.objects.all().order_by('id').last()
+    if not last_invoice:
+         return 'MAG0001'
+    app_code = last_invoice.app_code
+    invoice_int = int(app_code.split('MAG')[-1])
+    new_invoice_int = invoice_int + 1
+    new_invoice_no = 'MAG' + str(new_invoice_int)
+    return new_invoice_no
 
 
 class Appointment(models.Model):
-    app_code = models.SlugField(max_length=25, default=increment_code, unique=True, editable=True)
+    app_code = models.SlugField(max_length=25, default=increment_invoice_number, unique=True, editable=True)
     app_name = models.CharField(max_length=15, name='Name')
     app_age = models.IntegerField(name='Age')
     app_date = models.DateField(name='Date')
     app_time = models.TimeField(name='Time')
+    app_email = models.EmailField(name='Email')
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True, default='+91')
 
-    #
     # def __str__(self):
     #     return self.Name
 
