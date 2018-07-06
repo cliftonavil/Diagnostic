@@ -1,13 +1,13 @@
 {% extends 'base_template.html' %}
 {% block content %}
 <br/>
-<center><h2>Upcomeing Appointments</h2></center>
+<center><h2>Upcoming Appointments</h2></center>
 <div class="row" style="margin-left:0%;">
     {%for i in upcomeing %}
     <a href="{{i.app_code}}">
         <div class="col-sm-3">
             <div class="thumbnail">
-                <div class="caption">
+                <div class="caption bg-primary">
                     <table style="width:100%">
                         <tr>
                             <h3>

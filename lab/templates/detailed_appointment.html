@@ -1,12 +1,137 @@
 {% extends 'base_template.html' %}
 {% block content %}
 <br/>
-<center><h2>Appointment2</h2></center>
-    <h2>{{ app_details.app_code }}</h2><br/>
-    <h2>{{ app_details.Name }}</h2><br/>
-    <h2>{{ app_details.Age }}</h2><br/>
-    <h2>{{ app_details.Date }}</h2><br/>
-    <h2>{{ app_details.Time }}</h2><br/>
-    <h2>{{ app_details.phone_number }}</h2><br/>
-    <h2>{{ app_details.Email }}</h2><br/>
+<br/>
+<style>
+
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 30%;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
+<div style="float:left;">
+    <button type="button" class="btn btn-success">Edit</button>
+    <button type="button" class="btn btn-success">Send Email</button>
+    <button type="button" class="btn btn-success">Print Report</button>
+    <button type="button" class="btn btn-success">Delete</button>
+</div>
+<div class="panel panel-primary" style="width:95%;">
+    <div class="panel-heading">
+        <h2 class="panel-title"><center>Appointment</center></h2>
+    </div>
+    <div class="panel-body">
+        <center>
+            <div class="row">
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>Code:</td>
+                            <td><span>{{ app_details.app_code }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>Name:</td>
+                            <td>{{ app_details.Name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Age:</td>
+                            <td>{{ app_details.Age }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>Date:</td>
+                            <td>{{ app_details.Date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Time:</td>
+                            <td>{{ app_details.Time }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>Mobile:</td>
+                            <td>{{ app_details.phone_number }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>{{ app_details.Email }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </center>
+    </div>
+</div>
+<div class="panel panel-primary" style="width:95%;">
+    <div class="panel-heading">
+        <p><h2 class="panel-title"><center>Test Details</center></h2></p>
+    </div>
+    <div class="panel-body">
+        <center>
+            <form name="add_name" id="add_name">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dynamic_field">
+                        <tr>
+                            <td>
+                                <select  class="form-control" id="selected_id">
+                                <option value="Nul">Select</option>
+                                {% for element in test_name %}
+                         <option  value={{ element.id }}>{{ element.Name }}
+                                    {% endfor %}
+                            </select></td>
+                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
+                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
+                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
+                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
+                            <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
+                        </tr>
+                    </table>
+                    <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
+                </div>
+            </form>
+        </center>
+    </div>
+</div>
+
+<script>
+ $(document).ready(function(){
+      var i=1;
+      $('#add').click(function(){
+           i++;
+           $('#dynamic_field').append(
+           '<tr id="row'+i+'"><td>< input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td>< input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+      });
+      $(document).on('click', '.btn_remove', function(){
+           var button_id = $(this).attr("id");
+           $('#row'+button_id+'').remove();
+      });
+      $('#submit').click(function(){
+           $.ajax({
+                url:"name.php",
+                method:"POST",
+                data:$('#add_name').serialize(),
+                success:function(data)
+                {
+                     alert(data);
+                     $('#add_name')[0].reset();
+                }
+           });
+      });
+ });
+ </script>
+
 {% endblock %}

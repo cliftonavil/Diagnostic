@@ -4,18 +4,19 @@
 <center><h2>Test List</h2></center>
 <div class="row"style="margin-left:-5%;">
     <div class="container">
+        {% if data %}
         <table class="table" style="width:80%">
             <thead>
-                <tr>
-                    <th><center>Sl.no</center></th>
-                    <th><center>Test Name</center></th>
-                    <th><center>Code</center></th>
-                    <th><center>Reference Value</center></th>
-                    <th><center>Units</center></th>
-                    <th><center>Availablity</center></th>
-                    <th><center>Rate</center></th>
-                    <th><center>GST</center></th>
-                </tr>
+            <tr>
+                <th><center>Sl.no</center></th>
+                <th><center>Test Name</center></th>
+                <th><center>Code</center></th>
+                <th><center>Reference Value</center></th>
+                <th><center>Units</center></th>
+                <th><center>Availablity</center></th>
+                <th><center>Rate</center></th>
+                <th><center>GST</center></th>
+            </tr>
             </a>
             </thead>
             {% for i in data %}
@@ -39,6 +40,9 @@
             </tbody>
             {% endfor %}
         </table>
+        {% else %}
+        <center><h3>Test Not Available</h3></center>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

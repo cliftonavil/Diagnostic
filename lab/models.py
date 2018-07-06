@@ -1,5 +1,9 @@
 import datetime
 
+from django.conf import settings
+from django.http import request
+from django.shortcuts import render
+
 from django.core.validators import RegexValidator
 from django.db import models
 # Create your models here.
@@ -7,7 +11,7 @@ from django.db import models
 def increment_invoice_number():
     last_invoice = Appointment.objects.all().order_by('id').last()
     if not last_invoice:
-         return 'MAG0001'
+        return 'MAG0001'
     app_code = last_invoice.app_code
     invoice_int = int(app_code.split('MAG')[-1])
     new_invoice_int = invoice_int + 1
@@ -25,6 +29,8 @@ class Appointment(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True, default='+91')
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 null=True, blank=True, on_delete=models.SET_NULL)
 
     # def __str__(self):
     #     return self.Name

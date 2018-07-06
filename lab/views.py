@@ -35,6 +35,7 @@ def dashboard(request):
     todays_count = len(Appointment.objects.all().filter(Date=datetime.date.today()))
     test_count = len(Test.objects.all().filter(availablity_status='available'))
     path = 'dashboard.html'
+    print('Username-----',request.user)
     return render(request, path, {'todays_count': todays_count, 'test_count':test_count})
 
 
@@ -57,7 +58,8 @@ def search(request):
 def appointment_details(request,app_code):
     # -------  View Appointment Details  --------
     app_details = Appointment.objects.get(app_code=app_code)
+    test_name = Test.objects.all().order_by('Name')
     path = 'detailed_appointment.html'
-    return render(request, path, {'app_details': app_details})
+    return render(request, path, {'app_details': app_details, 'test_name': test_name})
 
 
