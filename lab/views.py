@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
+from lab import forms
 from lab.filters import UserFilter
-from lab.models import Appointment, Test
+from lab.models import Appointment
+from lab.models import Test
+from .import forms
 import datetime
 
 #
@@ -23,11 +26,11 @@ def todays_appointments(request):
     return render(request, path, {'todays': todays})
 
 
-def past_appointments(request):
+def all_appointments(request):
     # ------- Past Appointments --------
-    past = Appointment.objects.all().filter(Date__lte=datetime.date.today() - datetime.timedelta(days=1))
-    path='past_appointments.html'
-    return render(request, path, {'past': past})
+    all = Appointment.objects.all()
+    path ='all_appointments.html'
+    return render(request, path, {'all': all})
 
 
 def dashboard(request):
@@ -63,3 +66,44 @@ def appointment_details(request,app_code):
     return render(request, path, {'app_details': app_details, 'test_name': test_name})
 
 
+def test_details(request,test_code):
+    # -------  View Test Details  --------
+    test_details = Test.objects.get(Code=test_code)
+    print(test_details)
+    path = 'detailed_test.html'
+    return render(request, path, {'test_details': test_details})
+
+# def home(request):
+#     if request.method == 'POST':
+#         form = ContactForm(request.POST)
+#         print('cxxxxxxxxxxx',form)
+#         if form.is_valid():
+#             pass  # does nothing, just trigger the validation
+#     else:
+#         form = ContactForm()
+#     return render(request, 'home.html', {'form': form})
+
+
+
+def book_delete(request, id):
+    book= Test.objects.get(id=id)
+    book.delete()
+    path = 'detailed_test.html'
+    return render(request, path, {'test_details': test_details})
+
+
+def appointment_create(request):
+    #CreateAppointment
+    if request.method == 'POST':
+        form = forms.CreateAppointment(request.POST)
+        if form.is_valid():
+            #save article to db
+            instance = form.save(commit=False)
+            # instance.author = request.user
+            instance.save()
+            print('ccccc       Sucess ',form)
+        return redirect('lab:Dashboard')
+    else:
+        form = forms.CreateAppointment()
+        path = 'appointment_create.html'
+    return render(request, path, {'form': form})

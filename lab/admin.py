@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from lab.models import Appointment, Test
+from lab.models import Test, Appointment
+
 
 admin.site.register(Appointment)
 admin.site.register(Test)
+

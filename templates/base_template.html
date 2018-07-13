@@ -185,10 +185,10 @@
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-calendar"></i> Appointments<i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-1" class="collapse">
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Create Appointments</a></li>
+                        <li><a href="/appointment_create"><i class="fa fa-angle-double-right"></i> Create Appointments</a></li>
                         <li><a href="/todays_appointments"><i class="fa fa-angle-double-right"></i> Todays Appointments</a></li>
                         <li><a href="/upcomeing_appointments"><i class="fa fa-angle-double-right"></i> Upcomeing Appointments</a></li>
-                        <li><a href="/past_appointments"><i class="fa fa-angle-double-right"></i> Past Appointments</a></li>
+                        <li><a href="/all_appointments"><i class="fa fa-angle-double-right"></i> All Appointments</a></li>
                     </ul>
                 </li>
                 <li>
@@ -236,10 +236,10 @@ $(function(){
 
     </script>
 
-    <!--<div class="wrapper">-->
+    <div class="wrapper">
         {% block content %}
         {% endblock %}
-    <!--</div>-->
+    </div>
 </div>
 </body>
 </html>

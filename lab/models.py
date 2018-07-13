@@ -8,6 +8,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 # Create your models here.
 
+
 def increment_invoice_number():
     last_invoice = Appointment.objects.all().order_by('id').last()
     if not last_invoice:
@@ -28,12 +29,13 @@ class Appointment(models.Model):
     app_email = models.EmailField(name='Email')
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
+
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True, default='+91')
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  null=True, blank=True, on_delete=models.SET_NULL)
 
-    # def __str__(self):
-    #     return self.Name
+    def __str__(self):
+        return self.Name
 
 
 class Test(models.Model):
@@ -49,5 +51,10 @@ class Test(models.Model):
     test_rate = models.IntegerField(name='Rate')
     gst_tax = models.IntegerField(name='GST')
 
-    # def __str__(self):
-    #     return self.Name
+    def __str__(self):
+        return self.Name
+
+    # <input
+    # type = "text"
+    # name = "name[]"
+    # placeholder = "Enter Result" class ="form-control name_list"/>

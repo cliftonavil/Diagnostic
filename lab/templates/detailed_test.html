@@ -1,0 +1,72 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<br/>
+<br/>
+<style>
+
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 30%;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
+<div style="float:left;">
+    <button type="button" class="btn btn-success">Edit</button>
+    <button type="button" class="btn btn-success">Send Email</button>
+    <button type="button" class="btn btn-success">Print Report</button>
+   <a href="{{ app_details.id }}"><button onclick="return confirm('You are About to Delete {{ app_details.id }}');" type="button" class="btn btn-success">Delete</button></a>
+
+</div>
+<div class="panel panel-primary" style="width:95%;">
+    <div class="panel-heading">
+        <h2 class="panel-title"><center>Appointment</center></h2>
+    </div>
+    <div class="panel-body">
+        <center>
+            <div class="row">
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>Code :</td>
+                            <td><span>{{ test_details.Code }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>Name :</td>
+                            <td>{{ test_details.Name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Reference Value :</td>
+                            <td>{{ test_details.Referance }}</td>
+                        </tr>
+                        <tr>
+                            <td>Reference Value :</td>
+                            <td>{{ test_details.Unit }}</td>
+                        </tr>
+                        <tr>
+                            <td>Status :</td>
+                            <td>{{ test_details.availablity_status }}</td>
+                        </tr>
+                        <tr>
+                            <td>Rate :</td>
+                            <td>{{ test_details.Rate }}</td>
+                        </tr>
+                        <tr>
+                            <td>Gst :</td>
+                            <td>{{ test_details.GST }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </center>
+    </div>
+</div>
+{% endblock %}

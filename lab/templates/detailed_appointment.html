@@ -23,7 +23,8 @@
     <button type="button" class="btn btn-success">Edit</button>
     <button type="button" class="btn btn-success">Send Email</button>
     <button type="button" class="btn btn-success">Print Report</button>
-    <button type="button" class="btn btn-success">Delete</button>
+    <a href="{{ app_details.id }}"><button onclick="return confirm('You are About to Delete {{ app_details.id }}');" type="button" class="btn btn-success">Delete</button></a>
+
 </div>
 <div class="panel panel-primary" style="width:95%;">
     <div class="panel-heading">
@@ -88,16 +89,13 @@
                         <tr>
                             <td>
                                 <select  class="form-control" id="selected_id">
-                                <option value="Nul">Select</option>
-                                {% for element in test_name %}
-                         <option  value={{ element.id }}>{{ element.Name }}
-                                    {% endfor %}
-                            </select></td>
-                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
-                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
-                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
-                            <td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td>
-                            <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
+                                    <option value="Nul">Select</option>
+                                    {% for element in test_name %}
+                                    <option  value={{ element.id }}>{{ element.Name }}
+                                        {% endfor %}
+                                </select></td>
+                            <td><input type="text" name="name[]" placeholder="Result" class="form-control name_list" /></td>
+                            <td><button type="button" name="add" id="add" class="btn btn-success">Add</button></td>
                         </tr>
                     </table>
                     <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
@@ -113,24 +111,27 @@
       $('#add').click(function(){
            i++;
            $('#dynamic_field').append(
-           '<tr id="row'+i+'"><td>< input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td>< input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+           '<tr id="row'+i+'"><td><select  class="form-control" id="selected_id"><option value="Nul">Select</option>{% for element in test_name %}<option  value={{ element.id }}>{{ element.Name }}{% endfor %}</select></td><td><input type="text" name="name[]" placeholder="Result" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
       });
+
       $(document).on('click', '.btn_remove', function(){
            var button_id = $(this).attr("id");
            $('#row'+button_id+'').remove();
       });
-      $('#submit').click(function(){
-           $.ajax({
-                url:"name.php",
-                method:"POST",
-                data:$('#add_name').serialize(),
-                success:function(data)
-                {
-                     alert(data);
-                     $('#add_name')[0].reset();
-                }
-           });
-      });
+      <!--$('#submit').click(function(){-->
+      <!--alert(data);-->
+           <!--$.ajax({-->
+                <!--url:"name.php",-->
+                <!--method:"POST",-->
+                 <!--alert(data:$('#add_name').serialize()),-->
+                <!--success:function(data)-->
+                <!--{-->
+                     <!--alert(data);-->
+                     <!--var s = $('#add_name')[0].reset();-->
+
+                <!--}-->
+           <!--});-->
+      <!--});-->
  });
  </script>
 
