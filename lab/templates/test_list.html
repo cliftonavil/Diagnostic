@@ -5,7 +5,7 @@
 <div class="row"style="margin-left:-5%;">
     <div class="container">
         {% if data %}
-        <table class="table" style="width:80%">
+        <table class="table table-hover" style="width:80%">
             <thead>
             <tr>
                 <th><center>Sl.no</center></th>
@@ -35,7 +35,8 @@
 
                 <td><center>{{ i.Rate}}</center></td>
                 <td><center>{{ i.GST}}%</center></td>
-                <td><a href="{{i.id}}"><center>View</center></a></td>
+                <td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
+                <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
             </tr>
             </tbody>
             {% endfor %}

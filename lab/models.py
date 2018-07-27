@@ -6,6 +6,11 @@ from django.shortcuts import render
 
 from django.core.validators import RegexValidator
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+
 # Create your models here.
 
 
@@ -30,12 +35,20 @@ class Appointment(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
 
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True, default='+91')
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.Name
+
+
+class Testdata(models.Model):
+    name = models.CharField(max_length=15)
+    reporter = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Test(models.Model):
@@ -44,17 +57,34 @@ class Test(models.Model):
         ('not available', 'Not Available'),
     )
     test_name = models.CharField(max_length=20, name='Name')
-    test_code = models.CharField(max_length=10, name='Code')
+    test_code = models.SlugField(max_length=10, name='Code')
     referance_value = models.CharField(name='Referance', max_length=20)
-    unit_value = models.CharField(name='Unit',max_length=10)
-    availablity_status = models.CharField(choices=status, default='available', max_length=13,)
+    unit_value = models.CharField(name='Unit', max_length=10)
+    availablity_status = models.CharField(choices=status, default='available', max_length=13, )
     test_rate = models.IntegerField(name='Rate')
     gst_tax = models.IntegerField(name='GST')
 
     def __str__(self):
         return self.Name
 
-    # <input
-    # type = "text"
-    # name = "name[]"
-    # placeholder = "Enter Result" class ="form-control name_list"/>
+
+class Branch(models.Model):
+    status = (
+        ('active', 'Active'),
+        ('shutdown', 'Shutdown'),
+        ('opensoon', 'Opening Soon'),
+    )
+    branch_code = models.CharField(max_length=2, name='Branchcode')
+    availablity_status = models.CharField(choices=status, default='available', max_length=13, )
+    branch_state = models.CharField(max_length=20, name='State')
+    branch_city = models.CharField(max_length=20, name='City')
+    branch_location = models.CharField(max_length=20, name='location')
+    branch_address = models.TextField(name='Address')
+    branch_incharge = models.CharField(max_length=20, name='Incharge')
+    branch_phone_number = models.IntegerField(name='Phone')
+    branch_email = models.IntegerField(name='Email')
+
+    def __str__(self):
+        return self.Branchcode
+
+    # python manage.py migrate - -run - syncdb

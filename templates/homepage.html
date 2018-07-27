@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav>
+        <ul>
+            {% if user.is_authenticated%}
+            <li>
+                <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+            <li>
+                <a href="{%url 'artiles:create' %}" class="highlight">New Article</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{%url 'account:login' %}">Login</a>
+            </li>
+            <li>
+                <a href="{%url 'account:signup' %}">SignUp</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+<center><h1>Welcome</h1></center>
+</body>
+</html>

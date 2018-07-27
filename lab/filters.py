@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import django_filters
 
-from lab.models import Appointment
+from .models import Appointment
 
 
 class UserFilter(django_filters.FilterSet):

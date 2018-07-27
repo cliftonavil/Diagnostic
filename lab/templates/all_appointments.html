@@ -1,10 +1,15 @@
 {% extends 'base_template.html' %}
 {% block content %}
-<br/>
-<center><h2>Past Appointments</h2></center>
+<br/><br/><br/>
+<center><h2>All Appointments</h2></center>
+<br/><br/><br/>
 <div class="row" style="margin-left:0%;">
-    {%for i in all %}
-    <a href="{{i.app_code}}">
+    <p><form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+</form></p>
+{% for all in filter.qs %}
+<a href="all_appointments/{{ user.id }}/">
         <div class="col-sm-3">
             <div class="thumbnail">
                 <div class="caption">
@@ -12,26 +17,35 @@
                         <tr>
                             <h3>
                                 <th>Name:</th>
-                                <th>{{i.Name}}</th>
+                                <th>{{ user.app_code }}</th>
+                            </h3>
+                        </tr>
+                        <tr>
+                            <h3>
+                                <th>Name:</th>
+                                <th>{{ user.Name }}</th>
                             </h3>
                         </tr>
                         <tr>
                             <td>Jill:</td>
-                            <td>{{i.Age}}</td>
+                            <td>{{ user.Age}}</td>
                         </tr>
                         <tr>
                             <td>Date:</td>
-                            <td>{{i.Date|date:"d-m-Y"}}</td>
+                            <td>{{ user.Date|date:"d-m-Y" }}</td>
                         </tr>
                         <tr>
                             <td>Time</td>
-                            <td>{{i.Time}}</td>
+                            <td>{{ user.Time }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
     </a>
-    {% endfor %}
+{% endfor %}
+{% if not filter.qs %}
+    <p>No results found.</p>
+    {% endif %}
 </div>
 {% endblock %}

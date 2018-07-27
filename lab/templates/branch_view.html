@@ -1,0 +1,54 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<br/><br/>
+<div class="row"style="margin-left:-5%;">
+    <div class="container">
+        {% if branch_list %}
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="#home">Branch List</a></li>
+            <li><a data-toggle="pill" href="#menu1">Add Branch</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <table class="table table-hover" style="width:80%">
+                    <thead>
+                    <tr>
+                        <th><center>#</center></th>
+                        <th><center>Branch Code</center></th>
+                        <th><center>State/Location</center></th>
+                        <th><center>Status</center></th>
+                    </tr>
+                    </a>
+                    </thead>
+                    {% for i in branch_list %}
+                    <tbody>
+                    <tr>
+                        <td><center>{{ forloop.counter }}</center></td>
+                        <td><center>{{ i.Branchcode }}</center></td>
+                        <td><center>{{ i.City }}, {{ i.location }}</center></td>
+                        {% if i.availablity_status == "active" %}
+                        <td class="text-success"><center>Active</center></td>
+                        {% endif %}
+                        {% if i.availablity_status == "shutdown" %}
+                        <td class="text-danger"><center>Shutdown</center></td>
+                        {% endif %}
+                       {% if i.availablity_status == "opensoon" %}
+                        <td class="text-primary"><center>Opening Soon</center></td>
+                        {% endif %}
+                        <td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">View</span></center></a></td>
+                        <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+
+            </div>
+        </div>
+        {% else %}
+        <center><h3>No Branches Added</h3></center>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

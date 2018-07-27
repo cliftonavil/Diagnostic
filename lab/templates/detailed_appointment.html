@@ -23,8 +23,27 @@
     <button type="button" class="btn btn-success">Edit</button>
     <button type="button" class="btn btn-success">Send Email</button>
     <button type="button" class="btn btn-success">Print Report</button>
-    <a href="{{ app_details.id }}"><button onclick="return confirm('You are About to Delete {{ app_details.id }}');" type="button" class="btn btn-success">Delete</button></a>
 
+    <form class="delete-link" action="{% url 'account:logout' %}" method="post">{% csrf_token %}
+                    <button class="btn btn-success" onclick="return confirm('You are About to Delete {{ app_details.app_code }}');" type="submit">Delete</button>
+                </form>
+    <!--<button  id="{{ app_details.app_code }}" type="button" class="delete_button">Delete</button>-->
+    <!--<script>-->
+    <!--$(document).ready(function(){-->
+    <!--$(".delete_button").click(function() {-->
+        <!--var id = $(this).attr('id');-->
+        <!--$.ajax({-->
+            <!--url: "all_appointments/",-->
+            <!--data: { 'id' : id },-->
+            <!--beforeSend: function(xhr) {-->
+                <!--xhr.setRequestHeader("X-CSRFToken", {% csrf_token %} );-->
+            <!--},-->
+            <!--success: function(response){-->
+            <!--}-->
+        <!--});-->
+    <!--});-->
+<!--});-->
+<!--</script>-->
 </div>
 <div class="panel panel-primary" style="width:95%;">
     <div class="panel-heading">
@@ -37,15 +56,15 @@
                     <table>
                         <tr>
                             <td>Code:</td>
-                            <td><span>{{ app_details.app_code }}</span></td>
+                            <td><span>{{ app.app_code }}</span></td>
                         </tr>
                         <tr>
                             <td>Name:</td>
-                            <td>{{ app_details.Name }}</td>
+                            <td>{{ app.Name }}</td>
                         </tr>
                         <tr>
                             <td>Age:</td>
-                            <td>{{ app_details.Age }}</td>
+                            <td>{{ app.Age }}</td>
                         </tr>
                     </table>
                 </div>
@@ -53,11 +72,11 @@
                     <table>
                         <tr>
                             <td>Date:</td>
-                            <td>{{ app_details.Date }}</td>
+                            <td>{{ app.Date }}</td>
                         </tr>
                         <tr>
                             <td>Time:</td>
-                            <td>{{ app_details.Time }}</td>
+                            <td>{{ app.Time }}</td>
                         </tr>
                     </table>
                 </div>
@@ -65,11 +84,11 @@
                     <table>
                         <tr>
                             <td>Mobile:</td>
-                            <td>{{ app_details.phone_number }}</td>
+                            <td>{{ app.phone_number }}</td>
                         </tr>
                         <tr>
                             <td>Email:</td>
-                            <td>{{ app_details.Email }}</td>
+                            <td>{{ app.Email }}</td>
                         </tr>
                     </table>
                 </div>
@@ -83,6 +102,22 @@
     </div>
     <div class="panel-body">
         <center>
+            {% if testdata %}
+            {% for i in testdata %}
+            <div class="row">
+                <table>
+                    <tr>
+                        <td>Code:</td>
+                        <td>{{ i.reporter }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{ i.name  }}</td>
+                    </tr>
+                </table>
+            </div>
+            {% endfor %}
+            {% else %}
             <form name="add_name" id="add_name">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dynamic_field">
@@ -101,6 +136,7 @@
                     <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
                 </div>
             </form>
+            {% endif %}
         </center>
     </div>
 </div>

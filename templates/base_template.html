@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,8 +156,10 @@
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
+
 </head>
 <body>
+{% if user.is_authenticated %}
 <div id="throbber" style="display:none; min-height:120px;"></div>
 <div id="noty-holder"></div>
 <div id="wrapper">
@@ -164,16 +167,18 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <!-- Top Menu Items -->
         <ul class="nav navbar-left top-nav">
-           <li class="dropdown">
-               <h3><a href="#"  class="dropdown-toggle" data-toggle="dropdown">Logo</a></h3>
+            <li class="dropdown">
+                <h3><a href="#"  class="dropdown-toggle" data-toggle="dropdown">Logo</a></h3>
             </li>
         </ul>
         <ul class="nav navbar-right top-nav">
             <li><a href="#" data-placement="bottom" data-toggle="tooltip" href="#" data-original-title="Stats"><i class="fa fa-bar-chart-o"></i>
             </a>
             </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <b class="fa fa-fw fa-power-off"></b></a>
+            <li class="nav navbar-right top-nav">
+               <form class="logout-link" action="{% url 'account:logout' %}" method="post">{% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
             </li>
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -194,7 +199,7 @@
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-medkit"></i>  Lab Tests <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-2" class="collapse">
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Add Tests</a></li>
+                        <li><a href="/create_test"><i class="fa fa-angle-double-right"></i> Add Tests</a></li>
                         <li><a href="/Testlist"><i class="fa fa-angle-double-right"></i> View List</a></li>
                     </ul>
                 </li>
@@ -216,7 +221,12 @@
                     <a href="#"><i class="fa fa-fw fa-users"></i> Users</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-fw fa-cogs"></i> Settings</a>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-cogs"></i> Settings<i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-4" class="collapse">
+                        <li><a href="/Branch"><i class="fa fa-angle-double-right"></i> Branch Settings</a></li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Email Config</a></li>
+
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -242,4 +252,58 @@ $(function(){
     </div>
 </div>
 </body>
+{% else %}
+<!--<center><h2>Login</h2></center>-->
+<!--<center>-->
+    <!--<form class="site-form" action="{% url 'account:login' %}" method="post">{% csrf_token %}-->
+        <!--{{ form }}-->
+        <!--{% if request.GET.next %}-->
+        <!--<input type="hidden" name="next" value="{{request.GET.next}}">-->
+        <!--{% endif %}-->
+        <!--<button type="submit">You Need to Login First</button>-->
+    <!--</form>-->
+<!--</center>-->
+<center>
+    <form class="site-form" action="{% url 'account:login' %}" method="post">{% csrf_token %}
+        {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% for field in form.visible_fields %}
+        <div class="form-group">
+            <!--{{ field.label_tag }}-->
+
+            {% if form.is_bound %}
+            {% if field.errors %}
+            {% render_field field class="form-control is-invalid" %}
+            {% for error in field.errors %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% render_field field class="form-control is-valid" %}
+            {% endif %}
+            {% else %}
+            {% render_field field class="form-control" %}
+            {% endif %}
+
+            {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</center>
+{% endif %}
 </html>

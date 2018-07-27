@@ -5,16 +5,44 @@
     {{ filter.form.as_p }}
     <button type="submit">Search</button>
 </form></p>
-<ul>
-    {% for user in filter.qs %}
-    {{ user.app_code }}<br/>
-    {{ user.app_name }}<br/>
-    {% endfor %}
-    {% if not filter.qs %}
+{% for user in filter.qs %}
+<a href="all_appointments/{{ user.id }}/">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <div class="caption">
+                    <table style="width:100%">
+                        <tr>
+                            <h3>
+                                <th>Name:</th>
+                                <th>{{ user.app_code }}</th>
+                            </h3>
+                        </tr>
+                        <tr>
+                            <h3>
+                                <th>Name:</th>
+                                <th>{{ user.Name }}</th>
+                            </h3>
+                        </tr>
+                        <tr>
+                            <td>Jill:</td>
+                            <td>{{user.Age}}</td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td>{{ user.Date|date:"d-m-Y" }}</td>
+                        </tr>
+                        <tr>
+                            <td>Time</td>
+                            <td>{{ user.Time }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </a>
+{% endfor %}
+{% if not filter.qs %}
     <p>No results found.</p>
     {% endif %}
-</ul>
-
-
 
 {% endblock %}
