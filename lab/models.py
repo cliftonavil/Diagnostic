@@ -26,6 +26,14 @@ def increment_invoice_number():
 
 
 class Appointment(models.Model):
+    status = (
+        ('Cancel', 'Canceled'),
+        ('Booked', 'Booked'),
+        ('Completed', 'Completed'),
+        ('Ongoing', 'Ongoing'),
+        ('Pendeing', 'Pending'),
+    )
+
     app_code = models.SlugField(max_length=25, default=increment_invoice_number, unique=True, editable=True)
     app_name = models.CharField(max_length=15, name='Name')
     app_age = models.IntegerField(name='Age')
@@ -35,12 +43,13 @@ class Appointment(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
 
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
+    phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.CharField(name='Status',choices=status, default='Booked', max_length=10)
 
     def __str__(self):
-        return self.Name
+        return self.app_code
 
 
 class Testdata(models.Model):
@@ -60,12 +69,12 @@ class Test(models.Model):
     test_code = models.SlugField(max_length=10, name='Code')
     referance_value = models.CharField(name='Referance', max_length=20)
     unit_value = models.CharField(name='Unit', max_length=10)
-    availablity_status = models.CharField(choices=status, default='available', max_length=13, )
+    availablity_status = models.CharField(choices=status, default='available', max_length=13 )
     test_rate = models.IntegerField(name='Rate')
     gst_tax = models.IntegerField(name='GST')
 
     def __str__(self):
-        return self.Name
+        return self.test_name
 
 
 class Branch(models.Model):
@@ -75,16 +84,37 @@ class Branch(models.Model):
         ('opensoon', 'Opening Soon'),
     )
     branch_code = models.CharField(max_length=2, name='Branchcode')
-    availablity_status = models.CharField(choices=status, default='available', max_length=13, )
+    availablity_status = models.CharField(choices=status, default='available', max_length=13 )
     branch_state = models.CharField(max_length=20, name='State')
     branch_city = models.CharField(max_length=20, name='City')
     branch_location = models.CharField(max_length=20, name='location')
     branch_address = models.TextField(name='Address')
     branch_incharge = models.CharField(max_length=20, name='Incharge')
-    branch_phone_number = models.IntegerField(name='Phone')
-    branch_email = models.IntegerField(name='Email')
+    branch_phone_number = models.BigIntegerField(name='Phone')
+    branch_email = models.EmailField(name='Email')
 
     def __str__(self):
-        return self.Branchcode
+        return self.branch_code
 
-    # python manage.py migrate - -run - syncdb
+class TestTaken(models.Model):
+    app_code = models.CharField(max_length=20)
+    user_name = models.CharField(name='Username',max_length=20)
+    test_name = models.CharField(name='Testnam',max_length=20)
+    result_value = models.CharField(name='ResultValue',max_length=20)
+
+    def __str__(self):
+        return self.app_code
+
+class Employees(models.Model):
+    # emp_code = models.CharField(max_length=5, name='Empcode')
+    emp_name = models.CharField(max_length=15, name='Name')
+    emp_dob = models.DateField(name='DOB')
+    emp_designation = models.CharField(max_length=15, name='Designation')
+    emp_joiningdate = models.DateField(name='Joindate')
+    emp_moobile = models.BigIntegerField(name='Mobile')
+    emp_branchcode = models.CharField(name='Branchcode', max_length=10)
+
+    def __str__(self):
+        return self.Name
+
+    # python manage.py migrate --run-syncdb

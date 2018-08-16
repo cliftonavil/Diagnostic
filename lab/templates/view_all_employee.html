@@ -1,0 +1,37 @@
+{% extends 'base_template.html' %}
+{% block content %}
+<br/>
+<center><h2>Test List</h2></center>
+<div class="row"style="margin-left:-5%;">
+    <div class="container">
+        {% if listallemployee %}
+        <table class="table table-hover" style="width:80%">
+            <thead>
+            <tr>
+                <th><center>Sl.no</center></th>
+                <th><center>Employee Code</center></th>
+                <th><center>Employee Code</center></th>
+                <th><center>Branch Code</center></th>
+            </tr>
+
+            </thead>
+            {% for i in listallemployee %}
+            <tbody>
+            <tr>
+                <td><center>{{ forloop.counter }}</center></td>
+                <td><center>{{ i.Empcode }}</center></td>
+                <td><center>{{ i.Name }}</center></td>
+                <td><center>{{ i.Branchcode }}</center></td>
+<td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
+                <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
+
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <center><h3>Test Not Available</h3></center>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

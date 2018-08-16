@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'phonenumber_field',
     'lab',
-    'account',
+    # 'account',
     'widget_tweaks',
 )
 
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'labproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite34'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite'),
     }
 }
 
@@ -88,9 +88,9 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'django',
+#         'NAME': 'myproject',
 #         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
+#         'PASSWORD': 'clifton',
 #         'HOST': '127.0.0.1',
 #         'PORT': '5432',
 #     }
@@ -105,10 +105,22 @@ TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
+
+#email configrations
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'your_email_id'
+EMAIL_HOST_PASSWORD ='your_password_here'
+
+
+
+DATE_FORMAT = "d-m-Y"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

@@ -1,9 +1,9 @@
 {% extends 'base_template.html' %}
+{% load widget_tweaks %}
 {% block content %}
 <br/><br/>
 <div class="row"style="margin-left:-5%;">
     <div class="container">
-        {% if branch_list %}
         <ul class="nav nav-pills">
             <li class="active"><a data-toggle="pill" href="#home">Branch List</a></li>
             <li><a data-toggle="pill" href="#menu1">Add Branch</a></li>
@@ -32,23 +32,64 @@
                         {% if i.availablity_status == "shutdown" %}
                         <td class="text-danger"><center>Shutdown</center></td>
                         {% endif %}
-                       {% if i.availablity_status == "opensoon" %}
+                        {% if i.availablity_status == "opensoon" %}
                         <td class="text-primary"><center>Opening Soon</center></td>
                         {% endif %}
-                        <td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">View</span></center></a></td>
-                        <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
+                        <td><a href="{% url 'lab:Branch' %}/View/{{ i.id }}"><center><span class="badge badge-success">View</span></center></a></td>
+                        <td><a href="{% url 'lab:Branch' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
+                        <td><a href="{% url 'lab:Branch' %}/Delete/{{ i.id }}" onclick="return confirm('Do You want to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
+
                     </tr>
                     </tbody>
                     {% endfor %}
                 </table>
             </div>
-            <div id="menu1" class="tab-pane fade">
+             <div id="menu1" class="tab-pane fade in active">
+                <form method="post" style="margin-right:60%;">
+  {% csrf_token %}
 
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% for field in form.visible_fields %}
+    <div class="form-group">
+      <!--{{ field.label_tag }}-->
+
+      {% if form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
             </div>
         </div>
-        {% else %}
-        <center><h3>No Branches Added</h3></center>
-        {% endif %}
+
     </div>
 </div>
 {% endblock %}

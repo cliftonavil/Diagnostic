@@ -39,3 +39,10 @@ class CreateTest(forms.ModelForm):
             'GST': forms.NumberInput(attrs={'size': 12, 'placeholder': 'GST in %'})
         }
 
+class CreateBranch(forms.ModelForm):
+    class Meta:
+        model = models.Branch
+        fields = ['Branchcode']
+        widgets = {
+            'Branchcode': forms.TextInput(attrs={'size': 15, 'placeholder': 'Branch Code'}),
+        }

@@ -1,0 +1,44 @@
+{% extends 'base_template.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<br/><br/>
+<h3><center>Branch Details</center></h3>
+<table style="width:30%; font-size:20px;" >
+  <tr>
+    <th>Branch Code:</th>
+    <td>{{ branch_details.Branchcode }}</td>
+  </tr>
+  <tr>
+    <th>Status:</th>
+      <td>{{ branch_details.availablity_status }}</td>
+  </tr>
+    <tr>
+    <th>State:</th>
+    <td>{{ branch_details.State }}</td>
+  </tr>
+    <tr>
+    <th>City:</th>
+    <td>{{ branch_details.City }}</td>
+  </tr>
+    <tr>
+    <th>Location:</th>
+    <td>{{ branch_details.location }}</td>
+  </tr>
+    <tr>
+    <th>Address:</th>
+    <td>{{ branch_details.Address }}</td>
+  </tr>
+    <tr>
+    <th>Branch Incharge:</th>
+    <td>{{ branch_details.Incharge }}</td>
+  </tr>
+    <tr>
+    <th>Phone:</th>
+    <td>{{ branch_details.Phone }}</td>
+  </tr>
+    <tr>
+    <th>Email:</th>
+    <td>{{ branch_details.Email }}</td>
+  </tr>
+</table>
+{% endblock %}

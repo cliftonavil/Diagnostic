@@ -15,9 +15,16 @@ urlpatterns = [
     re_path(r'^all_appointments/(?P<id>\w+)/$', views.appointment_details, name="detail"),
     path('appointment_create', views.appointment_create, name='CreateAppointment'),
     path('create_test', views.create_test, name='CreateTest'),
-    re_path(r'^all_appointments/(?P<app_code>\w+)/$', views.app_delete, name="deleteApp"),
+    # re_path(r'^all_appointments/(?P<app_code>\w+)/$', views.app_delete, name="deleteApp"),
     re_path(r'^Testlist/(?P<id>\w+)/$', views.delete_test, name="DeleteTest"),
     re_path(r'^Testlist/Update/(?P<id>\w+)/$', views.update_test, name="DeleteTest"),
+    #Branch
     path('Branch', views.branch_view, name='Branch'),
+    re_path(r'^Branch/view/(?P<id>\w+)/$', views.view_branch_detail, name="ViewBranch"),
+    re_path(r'^Branch/Update/(?P<id>\w+)/$', views.update_branch, name="UpdateBranch"),
+    re_path(r'^Branch/Delete/(?P<id>\w+)/$', views.delete_branch, name="DeleteBranch"),
+    #adding test data form
+    path('alltestdata', views.alltestdata, name='alltestdata'),
+    path('listallemployee', views.listallemployee, name='Listallemployees')
 
 ]
