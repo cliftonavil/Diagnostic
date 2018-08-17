@@ -201,10 +201,10 @@
                 </li>
                 <li>
                     {% if request.user.is_superuser %}
-                    <a href="#" data-toggle="collapse" data-target="#submenu-5"><i class="fa fa-fw fa-user-plus"></i>  Employees</a>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-5"><i class="fa fa-fw fa-user-plus"></i>  Employees<i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-5" class="collapse">
                         <li><a href="/listallemployee"><i class="fa fa-angle-double-right"></i> View Employees</a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Create Employees</a></li>
+                        <li><a href="/create_employee"><i class="fa fa-angle-double-right"></i> Create Employees</a></li>
                     </ul>
                     {% else %}
                     <a href="/BranchEmployees"><i class="fa fa-fw fa-tachometer"></i> Branch Employees</a>

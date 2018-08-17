@@ -1,0 +1,72 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<br/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<h3>Create New Test</h3>
+<script>
+$(function() {
+$( "#id_DOB").datepicker({
+dateFormat: "yy-mm-dd",
+defaultDate: "+1w",
+changeMonth: true,
+numberOfMonths: 1,
+
+});
+});
+$(function() {
+$("#id_Joindate").datepicker({
+dateFormat: "yy-mm-dd",
+defaultDate: "+1w",
+changeMonth: true,
+numberOfMonths: 1,
+
+});
+});
+</script>
+<form method="post" style="margin-right:60%;">
+  {% csrf_token %}
+
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% for field in form.visible_fields %}
+    <div class="form-group">
+      <!--{{ field.label_tag }}-->
+
+      {% if form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+{% endblock %}

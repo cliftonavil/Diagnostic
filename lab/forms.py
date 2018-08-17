@@ -46,3 +46,16 @@ class CreateBranch(forms.ModelForm):
         widgets = {
             'Branchcode': forms.TextInput(attrs={'size': 15, 'placeholder': 'Branch Code'}),
         }
+
+class EmployeesAdd(forms.ModelForm):
+    class Meta:
+        model = models.Employees
+        fields = ['Name','DOB','Designation','Joindate','Mobile','emp_branchcode']
+        widgets = {
+            'Name': forms.TextInput(attrs={'size': 15, 'placeholder': 'Name'}),
+            'DOB': forms.DateInput(attrs={'size': 15, 'placeholder': 'DOB'}),
+            'Designation': forms.TextInput(attrs={'size': 15, 'placeholder': 'Designation'}),
+            'Joindate': forms.DateInput(attrs={'size': 15, 'placeholder': 'Join date'}),
+            'Mobile': forms.NumberInput(attrs={'size': 15, 'placeholder': 'Mobile'}),
+            'emp_branchcode': forms.TextInput(attrs={'size': 15, 'placeholder': 'Branch Code'}),
+        }

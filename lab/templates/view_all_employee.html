@@ -21,9 +21,8 @@
                 <td><center>{{ forloop.counter }}</center></td>
                 <td><center>{{ i.Empcode }}</center></td>
                 <td><center>{{ i.Name }}</center></td>
-                <td><center>{{ i.Branchcode }}</center></td>
-<td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
-                <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
+<td><a href="{% url 'lab:Listallemployees' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
+                <td><a href="{% url 'lab:Listallemployees' %}/Delete/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
 
             </tr>
             </tbody>

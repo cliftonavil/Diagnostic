@@ -25,6 +25,8 @@ urlpatterns = [
     re_path(r'^Branch/Delete/(?P<id>\w+)/$', views.delete_branch, name="DeleteBranch"),
     #adding test data form
     path('alltestdata', views.alltestdata, name='alltestdata'),
-    path('listallemployee', views.listallemployee, name='Listallemployees')
-
+    path('listallemployee', views.listallemployee, name='Listallemployees'),
+    re_path(r'^listallemployee/Delete/(?P<id>\w+)/$', views.delete_employee, name="DeleteEmployee"),
+    re_path(r'^listallemployee/Update/(?P<id>\w+)/$', views.update_employee, name="UpdateEmployee"),
+    path('create_employee', views.create_employee, name='CreateEmployee'),
 ]

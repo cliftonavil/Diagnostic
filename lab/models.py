@@ -46,7 +46,7 @@ class Appointment(models.Model):
     phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  null=True, blank=True, on_delete=models.SET_NULL)
-    status = models.CharField(name='Status',choices=status, default='Booked', max_length=10)
+    # ap_status = models.CharField(name='Status',choices=status, default='Booked', max_length=10)
 
     def __str__(self):
         return self.app_code
@@ -83,7 +83,7 @@ class Branch(models.Model):
         ('shutdown', 'Shutdown'),
         ('opensoon', 'Opening Soon'),
     )
-    branch_code = models.CharField(max_length=2, name='Branchcode')
+    branch_code = models.CharField(max_length=2,name='Branchcode')
     availablity_status = models.CharField(choices=status, default='available', max_length=13 )
     branch_state = models.CharField(max_length=20, name='State')
     branch_city = models.CharField(max_length=20, name='City')
@@ -94,7 +94,7 @@ class Branch(models.Model):
     branch_email = models.EmailField(name='Email')
 
     def __str__(self):
-        return self.branch_code
+        return self.Branchcode
 
 class TestTaken(models.Model):
     app_code = models.CharField(max_length=20)
@@ -112,9 +112,13 @@ class Employees(models.Model):
     emp_designation = models.CharField(max_length=15, name='Designation')
     emp_joiningdate = models.DateField(name='Joindate')
     emp_moobile = models.BigIntegerField(name='Mobile')
-    emp_branchcode = models.CharField(name='Branchcode', max_length=10)
+    emp_branchcode = models.CharField(max_length=10)
 
     def __str__(self):
         return self.Name
+
+
+# class EmailCongif(models.Model):
+    
 
     # python manage.py migrate --run-syncdb

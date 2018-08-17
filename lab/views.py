@@ -228,6 +228,44 @@ def listallemployee(request):
     path = 'view_all_employee.html'
     return render(request, path, {'listallemployee': listallemployee})
 
+def delete_employee(request, id):
+    employeedelete = Employees.objects.get(id=id)
+    employeedelete.delete()
+    return redirect('lab:Listallemployees')
+
+class EmplloyeeUpdateForm(ModelForm):
+    class Meta:
+        model = Employees
+        fields = ['Name', 'DOB', 'Designation', 'Joindate',
+                  'Mobile', 'emp_branchcode']
+
+def update_employee(request, id):
+    test = get_object_or_404(Employees, id=id)
+    form = EmplloyeeUpdateForm(request.POST or None, instance=test)
+    if form.is_valid():
+        form.save()
+        return redirect('lab:Listallemployees')
+    path = 'employee_update_form.html'
+    return render(request, path, {'form': form})
+
+def create_employee(request):
+    #CreateBranch
+    if request.method == 'POST':
+        form = forms.EmployeesAdd(request.POST)
+        if form.is_valid():
+            #save article to db
+            instance = form.save()
+            # instance.author = request.user
+            instance.save()
+        return redirect('lab:Listallemployees')
+    else:
+        form = forms.EmployeesAdd()
+        path = 'employee_create_form.html'
+    return render(request, path, {'form': form})
+
+
+
+
 
 # def pdf_view(request):
 #     # Create the HttpResponse object with the appropriate PDF headers.
