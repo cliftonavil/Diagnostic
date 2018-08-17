@@ -1,0 +1,31 @@
+{% extends 'base_template.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<br/><br/>
+<h3><center>Employee Details</center></h3>
+<table style="width:30%; font-size:20px;" >
+  <tr>
+    <th>Name:</th>
+    <td>{{ employee_details.Name }}</td>
+  </tr>
+  <tr>
+    <th>DOB:</th>
+      <td>{{ employee_details.DOB }}</td>
+  </tr>
+    <tr>
+    <th>Designation:</th>
+    <td>{{ employee_details.Designation }}</td>
+  </tr>
+    <tr>
+    <th>Joindate:</th>
+    <td>{{ employee_details.Joindate }}</td>
+  </tr>
+    <tr>
+    <th>Mobile:</th>
+    <td>{{ employee_details.Mobile }}</td>
+  </tr>
+    <tr>
+    <th>Branchcode:</th>
+    <td>{{ employee_details.emp_branchcode }}</td>
+</table>
+{% endblock %}

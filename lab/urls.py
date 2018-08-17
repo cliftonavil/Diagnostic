@@ -20,7 +20,7 @@ urlpatterns = [
     re_path(r'^Testlist/Update/(?P<id>\w+)/$', views.update_test, name="DeleteTest"),
     #Branch
     path('Branch', views.branch_view, name='Branch'),
-    re_path(r'^Branch/view/(?P<id>\w+)/$', views.view_branch_detail, name="ViewBranch"),
+    re_path(r'^Branch/View/(?P<id>\w+)/$', views.view_branch_detail, name="ViewBranch"),
     re_path(r'^Branch/Update/(?P<id>\w+)/$', views.update_branch, name="UpdateBranch"),
     re_path(r'^Branch/Delete/(?P<id>\w+)/$', views.delete_branch, name="DeleteBranch"),
     #adding test data form
@@ -28,5 +28,6 @@ urlpatterns = [
     path('listallemployee', views.listallemployee, name='Listallemployees'),
     re_path(r'^listallemployee/Delete/(?P<id>\w+)/$', views.delete_employee, name="DeleteEmployee"),
     re_path(r'^listallemployee/Update/(?P<id>\w+)/$', views.update_employee, name="UpdateEmployee"),
+    re_path(r'^listallemployee/View/(?P<id>\w+)/$', views.view_detail_employee, name="ViewDetailEmployee"),
     path('create_employee', views.create_employee, name='CreateEmployee'),
 ]

@@ -249,7 +249,7 @@ def update_employee(request, id):
     return render(request, path, {'form': form})
 
 def create_employee(request):
-    #CreateBranch
+    #CreateEmployee
     if request.method == 'POST':
         form = forms.EmployeesAdd(request.POST)
         if form.is_valid():
@@ -262,6 +262,12 @@ def create_employee(request):
         form = forms.EmployeesAdd()
         path = 'employee_create_form.html'
     return render(request, path, {'form': form})
+
+
+def view_detail_employee(request,id):
+    employee_details = Employees.objects.get(id=id)
+    path = 'employee_in_details.html'
+    return render(request, path, {'employee_details': employee_details})
 
 
 
