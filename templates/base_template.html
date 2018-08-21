@@ -153,7 +153,7 @@
     padding: 5px 15px;
 }
     </style>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
 
@@ -188,15 +188,18 @@
                     <ul id="submenu-1" class="collapse">
                         <li><a href="/appointment_create"><i class="fa fa-angle-double-right"></i> Create Appointments</a></li>
                         <li><a href="/todays_appointments"><i class="fa fa-angle-double-right"></i> Todays Appointments</a></li>
-                        <li><a href="/upcomeing_appointments"><i class="fa fa-angle-double-right"></i> Upcomeing Appointments</a></li>
                         <li><a href="/all_appointments"><i class="fa fa-angle-double-right"></i> All Appointments</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-medkit"></i>  Lab Tests <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-2" class="collapse">
+                        {% if request.user.is_superuser %}
                         <li><a href="/create_test"><i class="fa fa-angle-double-right"></i> Add Tests</a></li>
-                        <li><a href="/Testlist"><i class="fa fa-angle-double-right"></i> View List</a></li>
+                        <li><a href="/Testlist"><i class="fa fa-angle-double-right"></i> View Tests</a></li>
+                        {% else %}
+                        <li><a href="/Testlist"><i class="fa fa-angle-double-right"></i> View Test</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label {
+                visibility: hidden;
+              }
+        body{
+                margin-top:15%;
+                background:#b1e3cb;
+            }
+        input{
+                font-size:24px;
+
+              }
+        button{
+                font-size:16px;
+                background:blue;
+
+               }
+         ul{
+                    display: none;
+                }
+                .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+<h1 style="margin-left:4%;"><center>Login</center></h1>
+<center>
+    <form class="site-form" action="{% url 'Account:login' %}" method="post"> {% csrf_token %}
+            {{ form.as_p }}
+        {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{request.GET.next}}">
+        {% endif %}
+        <div style="margin-left:5%;"><center><button  class="button" type="submit">Login</button></center></div>
+    </form>
+</center>
+</body>
+</html>
+

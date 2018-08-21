@@ -28,10 +28,10 @@ class CreateAppointment(forms.ModelForm):
 class CreateTest(forms.ModelForm):
     class Meta:
         model = models.Test
-        fields = ['Name', 'Code', 'Referance', 'Unit',
+        fields = ['test_name', 'Code', 'Referance', 'Unit',
                   'availablity_status','Rate','GST']
         widgets = {
-            'Name': forms.TextInput(attrs={'size': 15, 'placeholder': 'Test Name'}),
+            'test_name': forms.TextInput(attrs={'size': 15, 'placeholder': 'Test Name'}),
             'Code': forms.TextInput(attrs={'size': 8, 'placeholder': 'Test Code'}),
             'Referance': forms.TextInput(attrs={'placeholder': 'Referance Value'}),
             'Unit': forms.TextInput(attrs={'placeholder': 'Unit'}),
@@ -42,20 +42,25 @@ class CreateTest(forms.ModelForm):
 class CreateBranch(forms.ModelForm):
     class Meta:
         model = models.Branch
-        fields = ['Branchcode']
+        fields = ['branch_code']
         widgets = {
-            'Branchcode': forms.TextInput(attrs={'size': 15, 'placeholder': 'Branch Code'}),
+            'branch_code': forms.TextInput(attrs={'size': 15, 'placeholder': 'Branch Code'}),
         }
 
 class EmployeesAdd(forms.ModelForm):
     class Meta:
         model = models.Employees
-        fields = ['Name','DOB','Designation','Joindate','Mobile','emp_branchcode']
+        fields = ['emp_name','DOB','Designation','Joindate','Mobile','emp_branchcode']
         widgets = {
-            'Name': forms.TextInput(attrs={'size': 15, 'placeholder': 'Name'}),
+            'emp_name': forms.TextInput(attrs={'size': 15, 'placeholder': 'Name'}),
             'DOB': forms.DateInput(attrs={'size': 15, 'placeholder': 'DOB'}),
             'Designation': forms.TextInput(attrs={'size': 15, 'placeholder': 'Designation'}),
             'Joindate': forms.DateInput(attrs={'size': 15, 'placeholder': 'Join date'}),
             'Mobile': forms.NumberInput(attrs={'size': 15, 'placeholder': 'Mobile'}),
-            'emp_branchcode': forms.TextInput(attrs={'size': 15, 'placeholder': 'Branch Code'}),
+
         }
+
+class Createtestresult(forms.ModelForm):
+    class Meta:
+        model = models.TestTaken
+        fields = ['ResultValue']

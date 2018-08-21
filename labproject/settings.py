@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'phonenumber_field',
     'lab',
-    # 'account',
+    'Account',
     'widget_tweaks',
 )
 
@@ -110,13 +110,13 @@ USE_L10N = False
 USE_TZ = True
 
 
-#email configrations
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'your_email_id'
-EMAIL_HOST_PASSWORD ='your_password_here'
+# #email configrations
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'your_email_id'
+# EMAIL_HOST_PASSWORD ='your_password_here'
 
 
 

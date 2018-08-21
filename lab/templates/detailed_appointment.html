@@ -19,29 +19,9 @@
     clear: both;
 }
 </style>
+
 <div style="float:left;">
-    <button type="button" class="btn btn-success">Edit</button>
-    <button type="button" class="btn btn-success">Send Email</button>
     <button type="button" class="btn btn-success">Print Report</button>
-
-
-    <!--<button  id="{{ app_details.app_code }}" type="button" class="delete_button">Delete</button>-->
-    <!--<script>-->
-    <!--$(document).ready(function(){-->
-    <!--$(".delete_button").click(function() {-->
-        <!--var id = $(this).attr('id');-->
-        <!--$.ajax({-->
-            <!--url: "all_appointments/",-->
-            <!--data: { 'id' : id },-->
-            <!--beforeSend: function(xhr) {-->
-                <!--xhr.setRequestHeader("X-CSRFToken", {% csrf_token %} );-->
-            <!--},-->
-            <!--success: function(response){-->
-            <!--}-->
-        <!--});-->
-    <!--});-->
-<!--});-->
-<!--</script>-->
 </div>
 <div class="panel panel-primary" style="width:95%;">
     <div class="panel-heading">
@@ -100,25 +80,32 @@
     </div>
     <div class="panel-body">
         <center>
-            <form name="add_name" id="add_name">{% csrf_token %}
-                          <div class="table-responsive">
-                               <table class="table table-bordered" id="dynamic_field">
-                                  <tr>
+            <!--{% if app.app_code != check_done.app_code %}-->
+            <form name="add_name" id="add_name">
+                {% csrf_token %}
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dynamic_field">
+                        <tr>
                             <td>
-                                <select  class="form-control" name="access_list[]"   id="selected_id">
-                                    <option>Select</option>
+                                <input type="hidden" name="app_code" value="{{ app.app_code }}" class="form-control name_list" />
+                            </td>
+                            <td>
+                                <select  class="form-control" name="test_list"   id="selected_id">
+                                    <option style="display:none">Select</option>
                                     {% for element in testdata %}
-                                    <option  value={{ element.id }}>{{ element.Name }}
+                                    <option  value={{ element.id }}>{{ element.test_name }}
                                         {% endfor %}
                                 </select>
                             </td>
                             <td><input type="text" name="name" placeholder="Result" class="form-control name_list" /></td>
+                            <td><input type="text" name="Remarks" placeholder="Remarks" class="form-control name_list" /></td>
                             <td><button type="button" name="add" id="add" class="btn btn-success">Add</button></td>
                         </tr>
-                               </table>
-                               <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
-                          </div>
-                     </form>
+                    </table>
+                    <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
+                </div>
+            </form>
+            <!--{% endif %}-->
         </center>
     </div>
 </div>
@@ -128,20 +115,20 @@
       var i=1;
       $('#add').click(function(){
            i++;
-           $('#dynamic_field').append('<tr id="row'+i+'"><td><select  class="form-control" id="selected_id" name="access_list[]"><option>Select</option>{% for element in testdata %}<option  value={{ element.id }}>{{ element.Name }}{% endfor %}</select></td><td><input type="text"  id="name" name="name" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+           $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="hidden" name="app_code" value="{{ app.app_code }}" class="form-control name_list" /></td><td><select  class="form-control" id="selected_id" name="test_list"><option style="display:none">Select</option>{% for element in testdata %}<option  value={{ element.id }}>{{ element.test_name }}{% endfor %}</select></td><td><input type="text"  id="name" name="name" placeholder="Result" class="form-control name_list" /></td><td><input type="text" name="Remarks" placeholder="Remarks" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
       });
       $(document).on('click', '.btn_remove', function(){
            var button_id = $(this).attr("id");
            $('#row'+button_id+'').remove();
       });
       $('#submit').click(function(){
+       console.log("xxxx111xxx");
            $.ajax({
-                url:"/alltestdata",
-                method:"POST",
-                data:$('#add_name').serialize(),
-                success:function(data)
-                {
-                     $('#add_name')[0].reset();
+                url: "/alltestdata",
+                method: "POST",
+                data:$('#add').serialize(),
+                success: function (data){
+
                 }
            });
       });

@@ -65,13 +65,13 @@ class Test(models.Model):
         ('available', 'Available'),
         ('not available', 'Not Available'),
     )
-    test_name = models.CharField(max_length=20, name='Name')
+    test_name = models.CharField(max_length=20, unique=True)
     test_code = models.SlugField(max_length=10, name='Code')
     referance_value = models.CharField(name='Referance', max_length=20)
     unit_value = models.CharField(name='Unit', max_length=10)
     availablity_status = models.CharField(choices=status, default='available', max_length=13 )
-    test_rate = models.IntegerField(name='Rate')
-    gst_tax = models.IntegerField(name='GST')
+    test_rate = models.IntegerField(name='Rate',null=True)
+    gst_tax = models.IntegerField(name='GST',null=True)
 
     def __str__(self):
         return self.test_name
@@ -83,7 +83,7 @@ class Branch(models.Model):
         ('shutdown', 'Shutdown'),
         ('opensoon', 'Opening Soon'),
     )
-    branch_code = models.CharField(max_length=2,name='Branchcode')
+    branch_code = models.CharField(max_length=2, unique=True)
     availablity_status = models.CharField(choices=status, default='available', max_length=13 )
     branch_state = models.CharField(max_length=20, name='State')
     branch_city = models.CharField(max_length=20, name='City')
@@ -91,32 +91,41 @@ class Branch(models.Model):
     branch_address = models.TextField(name='Address')
     branch_incharge = models.CharField(max_length=20, name='Incharge')
     branch_phone_number = models.BigIntegerField(name='Phone')
-    branch_email = models.EmailField(name='Email')
+    branch_email = models.EmailField(name='Email', unique=True)
 
     def __str__(self):
-        return self.Branchcode
+        return self.branch_code
 
 class TestTaken(models.Model):
     app_code = models.CharField(max_length=20)
     user_name = models.CharField(name='Username',max_length=20)
-    test_name = models.CharField(name='Testnam',max_length=20)
+    test_id = models.ForeignKey(Test, on_delete=models.CASCADE)
     result_value = models.CharField(name='ResultValue',max_length=20)
+    remarks = models.CharField(name='Remarks',max_length=20)
+    # date = models.DateField(name='Today',default=datetime.date.today())
 
     def __str__(self):
         return self.app_code
 
 class Employees(models.Model):
     # emp_code = models.CharField(max_length=5, name='Empcode')
-    emp_name = models.CharField(max_length=15, name='Name')
+    emp_name = models.CharField(max_length=15)
     emp_dob = models.DateField(name='DOB')
     emp_designation = models.CharField(max_length=15, name='Designation')
     emp_joiningdate = models.DateField(name='Joindate')
     emp_moobile = models.BigIntegerField(name='Mobile')
-    emp_branchcode = models.CharField(max_length=10)
+    emp_branchcode = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.Name
+        return self.emp_name
 
+
+class Configuration(models.Model):
+    email_use_tls = models.BooleanField(_(u'EMAIL_USE_TLS'),default=True)
+    email_host = models.CharField(_(u'EMAIL_HOST'),max_length=1024)
+    email_host_user = models.CharField(_(u'EMAIL_HOST_USER'),max_length=255)
+    email_host_password = models.CharField(_(u'EMAIL_HOST_PASSWORD'),max_length=255)
+    email_port = models.PositiveSmallIntegerField(_(u'EMAIL_PORT'),default=587)
 
 # class EmailCongif(models.Model):
     

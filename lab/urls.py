@@ -6,7 +6,6 @@ app_name = 'lab'
 urlpatterns = [
     path('home', views.home, name='homelogin'),
     path('todays_appointments', views.todays_appointments, name='TodaysAppointments'),
-    path('upcomeing_appointments', views.upcomeing_appointments, name='Upcomeings Appointments'),
     path('all_appointments', views.all_appointments, name='All Appointments'),
     path('dashboard', views.dashboard, name='Dashboard'),
     path('Testlist', views.testlist, name='TestList'),
@@ -25,6 +24,7 @@ urlpatterns = [
     re_path(r'^Branch/Delete/(?P<id>\w+)/$', views.delete_branch, name="DeleteBranch"),
     #adding test data form
     path('alltestdata', views.alltestdata, name='alltestdata'),
+    # path('deletetestdata', views.deletetestdata, name='deletetestdata'),
     path('listallemployee', views.listallemployee, name='Listallemployees'),
     re_path(r'^listallemployee/Delete/(?P<id>\w+)/$', views.delete_employee, name="DeleteEmployee"),
     re_path(r'^listallemployee/Update/(?P<id>\w+)/$', views.update_employee, name="UpdateEmployee"),

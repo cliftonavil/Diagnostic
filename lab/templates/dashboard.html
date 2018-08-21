@@ -43,9 +43,63 @@
                 <table style="width:100%">
                     <tr>
                         <center>
+                            {% if request.user.is_superuser %}
                             <h1>
-                                xx
+                                ₹{{ admin_revenue }}
                             </h1>
+                            {% else %}
+                            <h1>
+                                ₹{{ other_user }}
+                            </h1>
+                            {% endif %}
+                        </center>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </a>
+</div>
+</br>
+    <a href="#">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <center><div class="caption">Total Person Count</div> </center>
+                <table style="width:100%">
+                    <tr>
+                        <center>
+                            {% if request.user.is_superuser %}
+                            <h1>
+                                {{ person_count }}
+                            </h1>
+                            {% else %}
+                            <h1>
+                                {{ person_count }}
+                            </h1>
+                            {% endif %}
+                        </center>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </a>
+<a href="#">
+        <div class="col-sm-3">
+            <div class="thumbnail">
+                <center><div class="caption">Total Test Done</div> </center>
+                <table style="width:100%">
+                    <tr>
+                        <center>
+                            {% if request.user.is_superuser %}
+                            <h1>
+                                {{ total_test_done }}
+                            </h1>
+                            {% else %}
+                            <h1>
+                                {{ total_test_done }}
+                            </h1>
+                            {% endif %}
                         </center>
                     </tr>
                 </table>

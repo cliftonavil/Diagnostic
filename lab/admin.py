@@ -9,3 +9,4 @@ admin.site.register(Testdata)
 admin.site.register(Branch)
 admin.site.register(TestTaken)
 admin.site.register(Employees)
+

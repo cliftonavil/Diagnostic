@@ -35,8 +35,10 @@
 
                 <td><center>{{ i.Rate}}</center></td>
                 <td><center>{{ i.GST}}%</center></td>
+                {% if request.user.is_superuser %}
                 <td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
                 <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>
+                {% endif %}
             </tr>
             </tbody>
             {% endfor %}
