@@ -66,7 +66,7 @@ def dashboard(request):
         path = 'dashboard.html'
         return render(request, path,
                       {'todays_count': todays_count, 'test_count': test_count, 'admin_revenue': admin_revenue,
-                       'person_count':person_count,'total_test_done':total_test_done})
+                       'total_test_done':total_test_done})
     else:
         #for Other User/Branch
         test_count = len(Test.objects.all().filter(availablity_status='available'))
