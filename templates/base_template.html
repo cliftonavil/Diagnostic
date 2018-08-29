@@ -179,7 +179,7 @@
             </li>
         </ul>
         <ul class="nav navbar-right top-nav">
-            <li><a href="{% url 'Account:logout' %}" data-placement="bottom" data-toggle="tooltip"  data-original-title="Logout">{{ request.user.namename }}Logout  <i class="fa fa-power-off"></i>
+            <li><a href="{% url 'Account:logout' %}" data-placement="bottom" data-toggle="tooltip"  data-original-title="Logout">{{ user.get_username }} Logout  <i class="fa fa-power-off"></i>
             </a>
             </li>
             <li class="nav navbar-right top-nav">
@@ -189,24 +189,24 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li>
-                    <a href="/dashboard"><i class="fa fa-fw fa-tachometer"></i> DashBoard</a>
+                    <a href="{% url 'lab:Dashboard' %}"><i class="fa fa-fw fa-tachometer"></i> DashBoard</a>
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-calendar"></i> Appointments<i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-1" class="collapse">
-                        <li><a href="/appointment_create"><i class="fa fa-angle-double-right"></i> Create Appointments</a></li>
-                        <li><a href="/todays_appointments"><i class="fa fa-angle-double-right"></i> Todays Appointments</a></li>
-                        <li><a href="/all_appointments"><i class="fa fa-angle-double-right"></i> All Appointments</a></li>
+                        <li><a href="{% url 'lab:CreateAppointment' %}"><i class="fa fa-angle-double-right"></i> Create Appointments</a></li>
+                        <li><a href="{% url 'lab:TodaysAppointments' %}"><i class="fa fa-angle-double-right"></i> Todays Appointments</a></li>
+                        <li><a href="{% url 'lab:AllAppointments' %}"><i class="fa fa-angle-double-right"></i> All Appointments</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-medkit"></i>  Lab Tests <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-2" class="collapse">
                         {% if request.user.is_superuser %}
-                        <li><a href="/create_test"><i class="fa fa-angle-double-right"></i> Add Tests</a></li>
-                        <li><a href="/Testlist"><i class="fa fa-angle-double-right"></i> View Tests</a></li>
+                        <li><a href="{% url 'lab:CreateTest' %}"><i class="fa fa-angle-double-right"></i> Add Tests</a></li>
+                        <li><a href="{% url 'lab:TestList' %}"><i class="fa fa-angle-double-right"></i> View Tests</a></li>
                         {% else %}
-                        <li><a href="/Testlist"><i class="fa fa-angle-double-right"></i> View Test</a></li>
+                        <li><a href="{% url 'lab:TestList' %}"><i class="fa fa-angle-double-right"></i> View Test</a></li>
                         {% endif %}
                     </ul>
                 </li>
@@ -214,21 +214,21 @@
                     {% if request.user.is_superuser %}
                     <a href="#" data-toggle="collapse" data-target="#submenu-5"><i class="fa fa-fw fa-user-plus"></i>  Employees<i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-5" class="collapse">
-                        <li><a href="/listallemployee"><i class="fa fa-angle-double-right"></i> View Employees</a></li>
-                        <li><a href="/create_employee"><i class="fa fa-angle-double-right"></i> Create Employees</a></li>
+                        <li><a href="{% url 'lab:Listallemployees' %}"><i class="fa fa-angle-double-right"></i> View Employees</a></li>
+                        <li><a href="{% url 'lab:CreateEmployee' %}"><i class="fa fa-angle-double-right"></i> Create Employees</a></li>
                     </ul>
                     {% endif %}
                 </li>
                 <li>
                     {% if request.user.is_superuser %}
-                    <a href="/Addmin_Print"><i class="fa fa-fw fa-file-pdf-o"></i> Reports</a>
+                    <a href="{% url 'lab:AdminPrint' %}"><i class="fa fa-fw fa-file-pdf-o"></i> Reports</a>
                     {% else %}
-                    <a href="/User_Report"><i class="fa fa-fw fa-file-pdf-o"></i> Reports</a>
+                    <a href="{% url 'lab:UserPrint' %}"><i class="fa fa-fw fa-file-pdf-o"></i> Reports</a>
                     {% endif %}
                 </li>
                 {% if request.user.is_superuser %}
                 <li>
-                    <a href="/Users"><i class="fa fa-fw fa-users"></i> Users</a>
+                    <a href="{% url 'lab:Users' %}"><i class="fa fa-fw fa-users"></i> Users</a>
                 </li>
                 {% else %}
                 <li>
@@ -239,7 +239,7 @@
                     {% if request.user.is_superuser %}
                     <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-cogs"></i> Settings<i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-4" class="collapse">
-                        <li><a href="/Branch"><i class="fa fa-angle-double-right"></i> Branch Settings</a></li>
+                        <li><a href="{% url 'lab:Branch' %}"><i class="fa fa-angle-double-right"></i> Branch Settings</a></li>
                         <li><a href="/accounts/password/"><i class="fa fa-angle-double-right"></i> Change Password</a></li>
                     {% endif %}
                     </ul>

@@ -14,7 +14,6 @@ urlpatterns = [
     re_path(r'^todays_appointments/(?P<id>\w+)/$', views.todaysappointment_details, name="todaysdetail"),
     path('appointment_create', views.appointment_create, name='CreateAppointment'),
     path('create_test', views.create_test, name='CreateTest'),
-    # re_path(r'^all_appointments/(?P<app_code>\w+)/$', views.app_delete, name="deleteApp"),
     re_path(r'^Testlist/(?P<id>\w+)/$', views.delete_test, name="DeleteTest"),
     re_path(r'^Testlist/Update/(?P<id>\w+)/$', views.update_test, name="DeleteTest"),
     #Branch
