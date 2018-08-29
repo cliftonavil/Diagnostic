@@ -9,8 +9,7 @@
             <thead>
             <tr>
                 <th><center>Sl.no</center></th>
-                <th><center>Employee Code</center></th>
-                <th><center>Employee Code</center></th>
+                <th><center>Employee Name</center></th>
                 <th><center>Branch Code</center></th>
             </tr>
 
@@ -19,8 +18,7 @@
             <tbody>
             <tr>
                 <td><center>{{ forloop.counter }}</center></td>
-                <td><center>{{ i.Empcode }}</center></td>
-                <td><center>{{ i.Name }}</center></td>
+                <td><center>{{ i.emp_name }}</center></td>
                 <td><center>{{ i.emp_branchcode }}</center></td>
                 <td><a href="{% url 'lab:Listallemployees' %}/View/{{ i.id }}"><center><span class="badge badge-success">View</span></center></a></td>
                 <td><a href="{% url 'lab:Listallemployees' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>

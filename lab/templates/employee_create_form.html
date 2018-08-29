@@ -1,11 +1,17 @@
 {% extends 'base_template.html' %}
 {% block content %}
+{% load static %}
 {% load widget_tweaks %}
 <br/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<h3>Create New Test</h3>
+
+
+<!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>-->
+
+  <script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'jquery-ui.css' %}">
+
+<h3>Add New Employee</h3>
 <script>
 $(function() {
 $( "#id_DOB").datepicker({
@@ -68,5 +74,4 @@ numberOfMonths: 1,
 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-</div>
 {% endblock %}

@@ -3,7 +3,7 @@
 <br/>
 <center><h2>Dashboard</h2></center>
 <div class="row" style="margin-left:0%;">
-    <a href="/todays_appointments">
+    <a href="{% url 'lab:TodaysAppointments' %}">
         <div class="col-sm-3">
             <div class="thumbnail">
                 <center><div class="caption">Total Todays Appointments</div> </center>
@@ -19,7 +19,7 @@
             </div>
         </div>
     </a>
-    <a href="/Testlist">
+    <a href="{% url 'lab:TestList' %}">
         <div class="col-sm-3">
             <div class="thumbnail">
                 <center><div class="caption">Total Tests Available</div> </center>
@@ -61,29 +61,6 @@
     </a>
 </div>
 </br>
-    <a href="#">
-        <div class="col-sm-3">
-            <div class="thumbnail">
-                <center><div class="caption">Total Person Count</div> </center>
-                <table style="width:100%">
-                    <tr>
-                        <center>
-                            {% if request.user.is_superuser %}
-                            <h1>
-                                {{ person_count }}
-                            </h1>
-                            {% else %}
-                            <h1>
-                                {{ person_count }}
-                            </h1>
-                            {% endif %}
-                        </center>
-                    </tr>
-                </table>
-
-            </div>
-        </div>
-    </a>
 <a href="#">
         <div class="col-sm-3">
             <div class="thumbnail">
@@ -107,5 +84,4 @@
             </div>
         </div>
     </a>
-</div>
 {% endblock %}

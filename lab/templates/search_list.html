@@ -14,45 +14,41 @@
 </form></p>
 
 {% for user in filter.qs %}
-    {% if user.added_by|stringformat:"s" == request.user.username|stringformat:"s" %}
-        <a href="all_appointments/{{ user.id }}/">
-            <div class="col-sm-3">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <table style="width:100%">
-                            <tr>
-                                <h3>
-                                    <th>Name:</th>
-                                    <th>{{ user.app_code }}</th>
-                                </h3>
-                            </tr>
-                            <tr>
-                                <h3>
-                                    <th>Name:</th>
-                                    <th>{{ user.Name }}</th>
-                                </h3>
-                            </tr>
-                            <tr>
-                                <td>Jill:</td>
-                                <td>{{user.Age}}</td>
-                            </tr>
-                            <tr>
-                                <td>Date:</td>
-                                <td>{{ user.Date|date:"d-m-Y" }}</td>
-                            </tr>
-                            <tr>
-                                <td>Time</td>
-                                <td>{{ user.Time }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+{% if user.Addedby|stringformat:"s" == request.user|stringformat:"s" %}
+<a href="{% url 'lab:AllAppointments' %}/{{ user.id }}/">
+    <div class="col-sm-3">
+        <div class="thumbnail">
+            <div class="caption">
+                <table style="width:100%">
+                    <tr>
+                        <h3>
+                            <th>Name:</th>
+                            <th>{{ user.app_code }}</th>
+                        </h3>
+                    </tr>
+                    <tr>
+                        <h3>
+                            <th>Name:</th>
+                            <th>{{ user.Name }}</th>
+                        </h3>
+                    </tr>
+                    <tr>
+                        <td>Age:</td>
+                        <td>{{user.Age}}</td>
+                    </tr>
+                    <tr>
+                        <td>Date:</td>
+                        <td>{{ user.Date|date:"d-m-Y" }}</td>
+                    </tr>
+                </table>
             </div>
-        </a>
-    {% endif %}
+        </div>
+    </div>
+</a>
+{% endif %}
 {% endfor %}
 {% if not filter.qs %}
-    <p>No results found.</p>
-    {% endif %}
+<p>No results found.</p>
+{% endif %}
 
 {% endblock %}

@@ -1,29 +1,7 @@
 {% extends 'base_template.html' %}
 {% block content %}
-{% load static %}
 {% load widget_tweaks %}
 <br/>
-
-<!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">-->
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>-->
-
-<script type="text/javascript" src="{% static 'jquery-ui.min.js' %}"></script>
-<link rel="stylesheet" href="{% static 'jquery-ui.css' %}">
-
-<script>
-$(function() {
-$( "#id_Date" ).datepicker({
-dateFormat: "yy-mm-dd",
-defaultDate: '+0d',
-changeMonth: true,
-numberOfMonths: 1,
-
-});
-});
-
-</script>
-
-
 <h3>Create Appointment</h3>
 <form method="post" style="margin-right:60%;">
   {% csrf_token %}

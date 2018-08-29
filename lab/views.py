@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -6,6 +7,8 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail
 from django.conf import settings
 
+from lab.forms import ReportForm
+from .render import Render
 
 from .filters import UserFilter
 from .models import Appointment, Testdata, Branch, Employees, TestTaken
@@ -16,12 +19,11 @@ import datetime
 
 
 
-def home(request):
-    return render(request, 'home.html')
+
 
 def todays_appointments(request):
     # ------- Todays Appointments --------
-    todays = Appointment.objects.all().filter(Date=datetime.date.today())
+    todays = Appointment.objects.all().filter(Date=datetime.date.today(),Addedby=request.user)
     path = 'todays_appointments.html'
     return render(request, path, {'todays': todays})
 
@@ -33,38 +35,56 @@ def all_appointments(request):
     path = 'search_list.html'
     return render(request, path, {'filter': user_filter})
 
-# @login_required(login_url='/account/login/')
+def search(request):
+    # ------- Filter  --------
+    user_list = Appointment.objects.all()
+    user_filter = UserFilter(request.GET, queryset=user_list)
+    path = 'search_list.html'
+    return render(request, path, {'filter': user_filter})
+
+@login_required(login_url='/accounts/login/')
 def dashboard(request):
     # ------- Dashboard --------
-    todays_count = len(Appointment.objects.all().filter(Date=datetime.date.today()))
-    test_count = len(Test.objects.all().filter(availablity_status='available'))
+    test_count = Test.objects.all().filter(availablity_status='available').count()
     #for Admin
     if request.user.is_superuser:
-        rates_list = []
-        revenue = TestTaken.objects.all()
-        person_count = TestTaken.objects.values('app_code').distinct().count()
-        total_test_done = TestTaken.objects.all().count()
-        for i in revenue:
-            rates_list.append(int(i.test_id.Rate))
-        admin_revenue=sum(rates_list)
+        try:
+            todays_count = len(Appointment.objects.all().filter(Date=datetime.date.today(), Addedby=request.user.username))
+            rates_list = []
+            revenue = TestTaken.objects.all().filter(Today=datetime.date.today())
+            # person_count = TestTaken.objects.filter(Today=datetime.date.today()).distinct().count()
+            total_test_done = TestTaken.objects.filter(Today=datetime.date.today()).count()
+            for i in revenue:
+                rates_list.append(int(i.test_id.Rate))
+            admin_revenue=sum(rates_list)
+        except:
+            admin_revenue = '0'
+            todays_count = '0'
+
+            person_count='0'
+            total_test_done = '0'
         path = 'dashboard.html'
         return render(request, path,
                       {'todays_count': todays_count, 'test_count': test_count, 'admin_revenue': admin_revenue,
                        'person_count':person_count,'total_test_done':total_test_done})
     else:
         #for Other User/Branch
+        test_count = len(Test.objects.all().filter(availablity_status='available'))
+        print(test_count)
+        todays_count = len(Appointment.objects.all().filter(Date=datetime.date.today(), Addedby=request.user.username))
+        revenue = TestTaken.objects.all().filter(Username=request.user,Today=datetime.date.today())
+        total_test_done = TestTaken.objects.filter(Username=request.user,Today=datetime.date.today()).count()
+        person_count = TestTaken.objects.filter(Today=datetime.date.today(),
+                                                        Username=request.user).distinct().count()
         rates_list = []
-        revenue = TestTaken.objects.all().filter(Username=request.user.username)
-        try:
-            total_test_done = TestTaken.objects.get(Username=request.user.username).count()
-        except:
-            total_test_done="Not Available"
         for i in revenue:
             rates_list.append(int(i.test_id.Rate))
-        other_user=sum(rates_list)
+            print(rates_list)
+        other_user = sum(rates_list)
         path = 'dashboard.html'
         return render(request, path, {'todays_count': todays_count, 'test_count':test_count,
-                                  'other_user':other_user, 'total_test_done':total_test_done})
+                                      'other_user':other_user, 'total_test_done':total_test_done,
+                                      'person_count':person_count})
 
 
 def testlist(request):
@@ -74,23 +94,26 @@ def testlist(request):
     path = 'test_list.html'
     return render(request, path, context)
 
-
-def search(request):
-    # ------- Filter  --------
-    user_list = Appointment.objects.all()
-    user_filter = UserFilter(request.GET, queryset=user_list)
-    path = 'search_list.html'
-    return render(request, path, {'filter': user_filter})
-
-
 def appointment_details(request, id):
-    # -------  View Appointment Details  --------
+    # -------  View All Appointment Details  --------
     # app_details = Appointment.objects.get(app_code=app_code)
     app = Appointment.objects.get(id=id)
+    testtakenrecord = app.app_code
+    check_done = TestTaken.objects.all().filter(app_code=testtakenrecord)
+    count = TestTaken.objects.all().filter(app_code=testtakenrecord).count()
     testdata = Test.objects.all()
-    check_done = TestTaken.objects.all()
     path = 'detailed_appointment.html'
-    return render(request, path, {'app':app, 'testdata':testdata, 'check_done':check_done })
+    return render(request, path, {'app':app, 'check_done':check_done, 'count':count, 'testdata': testdata })
+
+def todaysappointment_details(request, id):
+    #Todays Appointment
+    app = Appointment.objects.get(id=id)
+    testtakenrecord = app.app_code
+    testdata = Test.objects.all()
+    check_done = TestTaken.objects.all().filter(app_code=testtakenrecord)
+    count = TestTaken.objects.all().filter(app_code=testtakenrecord).count()
+    path = 'detailed_appointment_today.html'
+    return render(request, path, {'app': app, 'testdata': testdata, 'check_done': check_done,'count':count })
 
 
 def test_details(request,test_code):
@@ -114,27 +137,6 @@ def alltestdata(request):
     return render(request, "detailed_appointment.html")
 
 
-
-
-
-
-
-#
-# def deletetestdata(request):
-#     if request.method == 'POST':
-#         record_id = request.POST.getlist('id')
-#         print('Backend')
-#         for i in record_id:
-#             print('Backend',i)
-#             print('ccccccccccccccccccccccc')
-#             delete_record = TestTaken.objects.get(id=int(i))
-#             delete_record.delete()
-
-
-
-
-
-
 def appointment_create(request):
     #CreateAppointment
     if request.method == 'POST':
@@ -143,7 +145,6 @@ def appointment_create(request):
 
         name = form['Name'].value()
         Date = form['Date'].value()
-        Time = form['Time'].value()
         emailto = form['Email'].value()
 
 
@@ -161,7 +162,7 @@ def appointment_create(request):
             # send_mail(subject, message, email_from, recipient_list)
 
 
-            # instance.author = request.user
+            instance.Addedby = request.user
             instance.save()
         return redirect('lab:Dashboard')
     else:
@@ -185,7 +186,7 @@ def create_test(request):
         path = 'create_new_test.html'
     return render(request, path, {'form': form})
 
-def create_banch(request):
+def CreateBranch(request):
     #CreateBranch
     if request.method == 'POST':
         form = forms.CreateBranch(request.POST)
@@ -194,10 +195,11 @@ def create_banch(request):
             instance = form.save()
             # instance.author = request.user
             instance.save()
-        return redirect('lab:Dashboard')
+            print('sucesss')
+        return redirect('lab:Branch')
     else:
         form = forms.CreateBranch()
-        path = 'banch_view.html'
+        path = 'Create_Branch.html'
     return render(request, path, {'form': form})
 
 
@@ -210,7 +212,7 @@ def delete_test(request,id):
 class TestUpdateForm(ModelForm):
     class Meta:
         model = Test
-        fields = ['test_name', 'Code', 'Referance', 'Unit', 'availablity_status', 'Rate','GST']
+        fields = ['test_name', 'Code', 'Referance', 'Unit', 'availablity_status', 'Rate']
 
 
 def update_test(request, id):
@@ -238,8 +240,8 @@ def view_branch_detail(request, id):
 class BranchUpdateForm(ModelForm):
     class Meta:
         model = Branch
-        fields = [ 'availablity_status', 'State', 'City',
-                   'location', 'Address', 'Incharge', 'Phone', 'Email']
+        fields = [ 'branch_name','availablity_status', 'State', 'City',
+                   'location', 'Address', 'Phone', 'Email']
 
 def update_branch(request, id):
     test = get_object_or_404(Branch, id=id)
@@ -299,27 +301,107 @@ def create_employee(request):
 def view_detail_employee(request,id):
     employee_details = Employees.objects.get(id=id)
     path = 'employee_in_details.html'
-    return render(request, path, {'branch_details': employee_details})
+    return render(request, path, {'employee_details': employee_details})
 
 
 
-# from django.core.mail import EmailMessage
-# from django.core.mail.backends.smtp import EmailBackend
-#
-#
-# config = Configuration.objects.get(**lookup_kwargs)
-#
-# backend = EmailBackend(host=config.host, port=congig.port, username=config.username,
-#                        password=config.password, use_tls=config.use_tls, fail_silently=config.fail_silently)
+def AdminPrint(request):
+    #Generate PDF report for Admin
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            fromformdate = form['fromdate'].value()
+            toformdate = form['todate'].value()
+            #fromdate
+            x=fromformdate.split('-')
+            fromyear=int(x[0])
+            frommonth=int(x[1])
+            fromdate=int(x[2])
+            #todate
+            y = toformdate.split('-')
+            toyear = int(y[0])
+            tomonth = int(y[1])
+            todate = int(y[2])
+            sales = TestTaken.objects.filter(Today__gte=datetime.date(fromyear, frommonth, fromdate),
+                                             Today__lte=datetime.date(toyear, tomonth, todate))
+            amountlist=[]
+            for i in sales:
+                amountlist.append(int(i.test_id.Rate))
+            totalamount = sum(amountlist)
+            username = request.user.username
+            params = {
+                'sales': sales,
+                'fromformdate':fromformdate,
+                'toformdate':toformdate,
+                'username':username,
+                'totalamount':totalamount,
+                'now':datetime.datetime.now(),
+            }
+            return Render.render('Sales_Report_pdf.html', params)
+    else:
+        form = ReportForm()
+        return render(request, 'Admin_Report.html', {'form': form})
 
-# def pdf_view(request):
-#     # Create the HttpResponse object with the appropriate PDF headers.
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
-#     p = canvas.Canvas(response)
-#     p.drawString(100, 100, 'hiii')
-#     p.showPage()
-#     p.save()
-#     return response
+def UserPrint(request):
+    #Generate PDF report for User
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            fromformdate = form['fromdate'].value()
+            toformdate = form['todate'].value()
+            #fromdate
+            x=fromformdate.split('-')
+            fromyear=int(x[0])
+            frommonth=int(x[1])
+            fromdate=int(x[2])
+            #todate
+            y = toformdate.split('-')
+            toyear = int(y[0])
+            tomonth = int(y[1])
+            todate = int(y[2])
+            sales = TestTaken.objects.filter(Today__gte=datetime.date(fromyear, frommonth, fromdate),
+                                             Today__lte=datetime.date(toyear, tomonth, todate),
+                                             Username=request.user.username)
+            amountlist=[]
+            for i in sales:
+                amountlist.append(int(i.test_id.Rate))
+            totalamount = sum(amountlist)
+            params = {
+                'sales': sales,
+                'fromformdate':fromformdate,
+                'toformdate':toformdate,
+                'username':request.user.username,
+                'totalamount':totalamount,
+                'now': datetime.datetime.now(),
+            }
+            return Render.render('Sales_Report_pdf.html', params)
+    else:
+        form = ReportForm()
+        return render(request, 'User_Report.html', {'form': form})
 
-# 4147201115
+
+def visualization(request):
+    path='visualization.html'
+    return render(request, path, {})
+
+def TestReports(request,string):
+    # Generate pdf Medical Reports
+    AppointmentData = Appointment.objects.get(app_code=string)
+    TestRecords = TestTaken.objects.filter(app_code=string)
+    amountlist = []
+    for i in TestRecords:
+        amountlist.append(int(i.test_id.Rate))
+    totalamount = sum(amountlist)
+    param={
+        'AppointmentData':AppointmentData,
+        'TestRecords':TestRecords,
+        'username': request.user.username,
+        'now': datetime.datetime.now(),
+        'totalamount':totalamount,
+    }
+    return Render.render('TestReport_PDF.html', param)
+
+def Users(request):
+    users = User.objects.all()
+    path = 'users.html'
+    return render(request, path, {'users': users})

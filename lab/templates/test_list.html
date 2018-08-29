@@ -15,7 +15,6 @@
                 <th><center>Units</center></th>
                 <th><center>Availablity</center></th>
                 <th><center>Rate</center></th>
-                <th><center>GST</center></th>
             </tr>
             </a>
             </thead>
@@ -23,7 +22,7 @@
             <tbody>
             <tr>
                 <td><center>{{ forloop.counter }}</center></td>
-                <td><center>{{ i.Name }}</center></td>
+                <td><center>{{ i.test_name }}</center></td>
                 <td><center>{{ i.Code }}</center></td>
                 <td><center>{{ i.Referance }}</center></td>
                 <td><center>{{ i.Unit }}</center></td>
@@ -34,7 +33,6 @@
                 {% endif %}
 
                 <td><center>{{ i.Rate}}</center></td>
-                <td><center>{{ i.GST}}%</center></td>
                 {% if request.user.is_superuser %}
                 <td><a href="{% url 'lab:TestList' %}/Update/{{ i.id }}"><center><span class="badge badge-success">Update</span></center></a></td>
                 <td><a href="{% url 'lab:TestList' %}/{{ i.id }}" onclick="return confirm('You are About to Delete {{ i.Name }} ?');"><center><span class="badge badge-danger">Delete</span></center></a></td>

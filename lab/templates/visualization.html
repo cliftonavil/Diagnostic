@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tihhjjle</title>
-
-</head>
-<body>
+{% extends 'base_template.html' %}
+{% block content %}
+<br/>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<center><h2>visualization</h2></center>
 <div id="container"></div>
-<script src="https://code.highcharts.com/highcharts.src.js"></script>
 <script>
     Highcharts.chart('container', {
         chart: {
@@ -31,5 +27,4 @@
         }]
     });
   </script>
-</body>
-</html>
+{% endblock %}

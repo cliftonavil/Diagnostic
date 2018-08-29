@@ -38,19 +38,19 @@ class Appointment(models.Model):
     app_name = models.CharField(max_length=15, name='Name')
     app_age = models.IntegerField(name='Age')
     app_date = models.DateField(name='Date')
-    app_time = models.TimeField(name='Time')
     app_email = models.EmailField(name='Email')
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
-                                 message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
+    # phone_regex = RegexValidator(regex=r'^\+?1?\d{9,13}$',
+    #                              message="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
+    # phone_number = models.CharField(validators=[RegexValidator(
+    #     regex=r'^\+?1?\d{9,13}$',
+    #     message='Username must be Alphanumeric',
+    #     code='invalid_username'
+    # ),],max_length=10)
+    added_by = models.CharField(max_length=12,name='Addedby')
 
-    phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True)
-    added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 null=True, blank=True, on_delete=models.SET_NULL)
-    # ap_status = models.CharField(name='Status',choices=status, default='Booked', max_length=10)
 
     def __str__(self):
         return self.app_code
-
 
 class Testdata(models.Model):
     name = models.CharField(max_length=15)
@@ -71,7 +71,7 @@ class Test(models.Model):
     unit_value = models.CharField(name='Unit', max_length=10)
     availablity_status = models.CharField(choices=status, default='available', max_length=13 )
     test_rate = models.IntegerField(name='Rate',null=True)
-    gst_tax = models.IntegerField(name='GST',null=True)
+
 
     def __str__(self):
         return self.test_name
@@ -83,18 +83,17 @@ class Branch(models.Model):
         ('shutdown', 'Shutdown'),
         ('opensoon', 'Opening Soon'),
     )
-    branch_code = models.CharField(max_length=2, unique=True)
+    branch_name = models.CharField(max_length=10, unique=True)
     availablity_status = models.CharField(choices=status, default='available', max_length=13 )
     branch_state = models.CharField(max_length=20, name='State')
     branch_city = models.CharField(max_length=20, name='City')
     branch_location = models.CharField(max_length=20, name='location')
     branch_address = models.TextField(name='Address')
-    branch_incharge = models.CharField(max_length=20, name='Incharge')
     branch_phone_number = models.BigIntegerField(name='Phone')
-    branch_email = models.EmailField(name='Email', unique=True)
+    branch_email = models.EmailField(name='Email')
 
     def __str__(self):
-        return self.branch_code
+        return self.branch_name
 
 class TestTaken(models.Model):
     app_code = models.CharField(max_length=20)
@@ -102,7 +101,7 @@ class TestTaken(models.Model):
     test_id = models.ForeignKey(Test, on_delete=models.CASCADE)
     result_value = models.CharField(name='ResultValue',max_length=20)
     remarks = models.CharField(name='Remarks',max_length=20)
-    # date = models.DateField(name='Today',default=datetime.date.today())
+    date = models.DateField(name='Today',default=datetime.date.today())
 
     def __str__(self):
         return self.app_code

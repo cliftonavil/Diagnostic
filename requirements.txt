@@ -2,3 +2,4 @@ django==2.0.5
 django-phonenumber-field
 django-filters
 django-widget-tweaks
+xhtml2pdf

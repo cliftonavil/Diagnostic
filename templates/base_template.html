@@ -1,4 +1,4 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +6,16 @@
     <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
     <title>Lab Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+
+
+    <script type="text/javascript" src="{% static 'jquery.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+
     <style type="text/css">
-    @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+@import url('{% static 'font-awesome.min.css' %}');
+    <!--@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');-->
 @media(min-width:768px) {
     body {
         margin-top: 50px;
@@ -154,11 +160,12 @@
 }
     </style>
 
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
 
 
 </head>
 <body>
+{% if user.is_authenticated %}
 <div id="throbber" style="display:none; min-height:120px;"></div>
 <div id="noty-holder"></div>
 <div id="wrapper">
@@ -167,11 +174,11 @@
         <!-- Top Menu Items -->
         <ul class="nav navbar-left top-nav">
             <li class="dropdown">
-                <h3><a href="#"  class="dropdown-toggle" data-toggle="dropdown">Logo</a></h3>
+                <h3><a href="/dashboard"  class="dropdown-toggle" data-toggle="dropdown">Logo</a></h3>
             </li>
         </ul>
         <ul class="nav navbar-right top-nav">
-            <li><a href="#" data-placement="bottom" data-toggle="tooltip" href="#" data-original-title="Stats"><i class="fa fa-bar-chart-o"></i>
+            <li><a href="{% url 'Account:logout' %}" data-placement="bottom" data-toggle="tooltip"  data-original-title="Logout">{{ request.user.namename }}Logout  <i class="fa fa-power-off"></i>
             </a>
             </li>
             <li class="nav navbar-right top-nav">
@@ -209,37 +216,30 @@
                         <li><a href="/listallemployee"><i class="fa fa-angle-double-right"></i> View Employees</a></li>
                         <li><a href="/create_employee"><i class="fa fa-angle-double-right"></i> Create Employees</a></li>
                     </ul>
-                    {% else %}
-                    <a href="/BranchEmployees"><i class="fa fa-fw fa-tachometer"></i> Branch Employees</a>
                     {% endif %}
                 </li>
                 <li>
-                    <a href="/Revenue"><i class="fa fa-fw fa-money"></i> Revenue</a>
-
+                    {% if request.user.is_superuser %}
+                    <a href="/Addmin_Print"><i class="fa fa-fw fa-file-pdf-o"></i> Reports</a>
+                    {% else %}
+                    <a href="/User_Report"><i class="fa fa-fw fa-file-pdf-o"></i> Reports</a>
+                    {% endif %}
                 </li>
+                {% if request.user.is_superuser %}
                 <li>
-                    <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-file-pdf-o"></i>  Reports <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-3" class="collapse">
-                        {% if request.user.is_superuser %}
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Admin Daily Reports</a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Admin Monthly</a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Admin Annual Reports</a></li>
-                        {% else %}
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Daily Reports</a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Monthly</a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Annual Reports</a></li>
-                        {% endif %}
-                    </ul>
+                    <a href="/Users"><i class="fa fa-fw fa-users"></i> Users</a>
                 </li>
+                {% else %}
                 <li>
-                    <a href="#"><i class="fa fa-fw fa-users"></i> Users</a>
+                    <a href="/accounts/password/"><i class="fa fa-fw fa-users"></i> Change Password</a>
                 </li>
+                {% endif %}
                 <li>
                     {% if request.user.is_superuser %}
                     <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-cogs"></i> Settings<i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-4" class="collapse">
                         <li><a href="/Branch"><i class="fa fa-angle-double-right"></i> Branch Settings</a></li>
-                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Email Config</a></li>
+                        <li><a href="/accounts/password/"><i class="fa fa-angle-double-right"></i> Change Password</a></li>
                     {% endif %}
                     </ul>
                 </li>
@@ -267,5 +267,10 @@ $(function(){
     </div>
 </div>
 </body>
+{% else %}
+<script>
+    window.location.href = "/accounts/login/";
+</script>
+{% endif %}
 
 </html>

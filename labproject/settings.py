@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+from django.contrib.messages import constants as message_constants
+MESSAGE_LEVEL = message_constants.DEBUG
 # Application definition
 
 INSTALLED_APPS = (
@@ -84,11 +85,11 @@ DATABASES = {
     }
 }
 
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'myproject',
+#         'NAME': 'Avil',
 #         'USER': 'postgres',
 #         'PASSWORD': 'clifton',
 #         'HOST': '127.0.0.1',
@@ -126,3 +127,7 @@ DATE_FORMAT = "d-m-Y"
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

@@ -21,7 +21,7 @@
 </style>
 
 <div style="float:left;">
-    {% ifnotequal count|stringformat:"s" '0' %}
+   {% ifnotequal count|stringformat:"s" '0' %}
     <button type="button" onclick="location.href='/TestReports/{{ app.app_code }}';" class="btn btn-success">Print Report</button>
     {% endifnotequal %}
 </div>
@@ -108,30 +108,30 @@
         <p><h2 class="panel-title"><center>Test Taken Details</center></h2></p>
     </div>
     <div class="panel-body">
+        <div id="refresh">
         <center>
-<table class="table table-hover">
-    <thead>
-      <tr>
-          <th><center>Sl.No</center></th>
-          <th><center>Test Name</center></th>
-        <th><center>Refenence Value</center></th>
-        <th><center>Result</center></th>
-          <th><center>Remarks</center></th>
-      </tr>
-    </thead>
-    {% for data in check_done %}
-    <tbody>
-      <tr>
-          <td><center>{{ forloop.counter }}</center></td>
-        <td><center>{{ data.test_id.test_name }}</center></td>
-        <td><center>{{ data.test_id.Referance }}</center></td>
-        <td><center>{{ data.ResultValue }}</center></td>
-          <td><center>{{ data.Remarks }}</center></td>
-      </tr>
-    </tbody>
-    {% endfor %}
-  </table>
+            <table id="table_results" class="table table-hover">
+                <thead>
+                <tr>
+                    <th><center>Test Name</center></th>
+                    <th><center>Refenence Value</center></th>
+                    <th><center>Result</center></th>
+                    <th><center>Remarks</center></th>
+                </tr>
+                </thead>
+                {% for data in check_done %}
+                <tbody>
+                <tr>
+                    <td><center>{{ data.test_id.test_name }}</center></td>
+                    <td><center>{{ data.test_id.Referance }}</center></td>
+                    <td><center>{{ data.ResultValue }}</center></td>
+                    <td><center>{{ data.Remarks }}</center></td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
         </center>
+            </div>
     </div>
 </div>
 {% else %}

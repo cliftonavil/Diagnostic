@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login Page</title>
     <style>
         label {
                 visibility: hidden;
@@ -38,8 +38,18 @@
 </head>
 <body>
 <h1 style="margin-left:4%;"><center>Login</center></h1>
+<div style="float:left;">
+<h3>For Admin
+<p>Username:admin</p>
+<p>Password:admin</p></h3>
+    </div>
+<div style="float:right;">
+<h3>For User
+<p>Username:user</p>
+<p>Password:user</p></h3>
+    </div>
 <center>
-    <form class="site-form" action="{% url 'Account:login' %}" method="post"> {% csrf_token %}
+    <form class="site-form" action="{% url 'Account:login' %}" method="post">{% csrf_token %}
             {{ form.as_p }}
         {% if request.GET.next %}
         <input type="hidden" name="next" value="{{request.GET.next}}">
