@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail
 from django.conf import settings
 
-from lab.forms import ReportForm
+from lab.forms import ReportForm, CreateTest, CreateAppointment
 from .render import Render
 
 from .filters import UserFilter
@@ -138,58 +138,69 @@ def alltestdata(request):
 
 
 def appointment_create(request):
-    #CreateAppointment
-    if request.method == 'POST':
-        form = forms.CreateAppointment(request.POST)
-
-
-        name = form['Name'].value()
-        Date = form['Date'].value()
-        emailto = form['Email'].value()
-
-
-        if form.is_valid():
-            #save article to db
-            instance = form.save(commit=False)
-
-
-            # subject = 'Your Appointment Has been Fixed'
-            # message = ' Dear '+ name +',Your Appointment Time has been Fixed on '+ Date +' at '+ Time +'' \
-            #           '.If any Enquiry Please Contact +919143702167.' \
-            #                                                'Have A Nice Day '
-            # email_from = settings.EMAIL_HOST_USER
-            # recipient_list = [emailto]
-            # send_mail(subject, message, email_from, recipient_list)
-
-
-            instance.Addedby = request.user
-            instance.save()
+    #Create Test
+    form = forms.CreateAppointment(request.POST or None)
+    if form.is_valid():
+        print(request.user)
+        instance = form.save(commit=False)
+        instance.Addedby = request.user
+        instance.save()
+        form = CreateAppointment()
         return redirect('lab:Dashboard')
     else:
-        form = forms.CreateAppointment()
+        context={'form':form}
         path = 'appointment_create.html'
-    return render(request, path, {'form': form})
+    return render(request, path, context)
 
+
+# def appointment_create(request):
+#     #CreateAppointment
+#     if request.method == 'POST':
+#         form = forms.CreateAppointment(request.POST)
+#
+#
+#         name = form['Name'].value()
+#         Date = form['Date'].value()
+#         emailto = form['Email'].value()
+#
+#
+#         if form.is_valid():
+#             #save article to db
+#             instance = form.save(commit=False)
+#
+#
+#             # subject = 'Your Appointment Has been Fixed'
+#             # message = ' Dear '+ name +',Your Appointment Time has been Fixed on '+ Date +' at '+ Time +'' \
+#             #           '.If any Enquiry Please Contact +919143702167.' \
+#             #                                                'Have A Nice Day '
+#             # email_from = settings.EMAIL_HOST_USER
+#             # recipient_list = [emailto]
+#             # send_mail(subject, message, email_from, recipient_list)
+#
+#
+#             instance.Addedby = request.user
+#             instance.save()
+#         return redirect('lab:Dashboard')
+#     else:
+#         form = forms.CreateAppointment()
+#         path = 'appointment_create.html'
+#     return render(request, path, {'form': form})
 
 def create_test(request):
-    #CreateAppointment
-    if request.method == 'POST':
-        form = forms.CreateTest(request.POST)
-        if form.is_valid():
-            #save article to db
-            instance = form.save()
-            # instance.author = request.user
-            instance.save()
+    #Create Test
+    form = forms.CreateTest(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = CreateTest()
         return redirect('lab:Dashboard')
     else:
-        form = forms.CreateTest()
-        path = 'create_new_test.html'
-    return render(request, path, {'form': form})
+        context={'form':form}
+    return render(request, 'create_new_test.html', context)
 
 def CreateBranch(request):
     #CreateBranch
     if request.method == 'POST':
-        form = forms.CreateBranch(request.POST)
+        form = forms.CreateBranch(request.POST or None)
         if form.is_valid():
             #save article to db
             instance = form.save()

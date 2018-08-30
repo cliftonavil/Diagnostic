@@ -10,19 +10,27 @@ from .import models
 
 
 class CreateAppointment(forms.ModelForm):
+    Age = forms.IntegerField(label='', widget=forms.TextInput(attrs={'size': 2, 'placeholder': 'Age'}))
     class Meta:
         model = models.Appointment
         fields = ['Name', 'Age', 'Date','Email']
 
         widgets = {
             'Name': forms.TextInput(attrs={ 'size': 15,'placeholder': 'Name'}),
-            'Age': forms.NumberInput(attrs={'size': 2,'placeholder': 'Age'}),
             'Date': forms.DateInput(attrs={'placeholder': 'Date'}),
             'Email': forms.EmailInput(attrs={'placeholder': 'example@email.com'}),
         }
+    def clean_Age(self, *args, **kwargs):
+        Age = self.cleaned_data.get('Age')
+        print(type(Age))
+        if Age <=100 :
+            return Age
+        else:
+            raise forms.ValidationError('Not a Valid Age!')
 
 
 class CreateTest(forms.ModelForm):
+    Rate = forms.IntegerField(label='',widget=forms.TextInput(attrs={'placeholder': 'Rate'}))
     class Meta:
         model = models.Test
         fields = ['test_name', 'Code', 'Referance', 'Unit',
@@ -32,8 +40,10 @@ class CreateTest(forms.ModelForm):
             'Code': forms.TextInput(attrs={'size': 8, 'placeholder': 'Test Code'}),
             'Referance': forms.TextInput(attrs={'placeholder': 'Referance Value'}),
             'Unit': forms.TextInput(attrs={'placeholder': 'Unit'}),
-            'Rate': forms.NumberInput(attrs={'placeholder': 'Rate'}),
         }
+
+
+
 
 class CreateBranch(forms.ModelForm):
     class Meta:

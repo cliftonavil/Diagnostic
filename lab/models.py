@@ -70,7 +70,7 @@ class Test(models.Model):
     referance_value = models.CharField(name='Referance', max_length=20)
     unit_value = models.CharField(name='Unit', max_length=10)
     availablity_status = models.CharField(choices=status, default='available', max_length=13 )
-    test_rate = models.IntegerField(name='Rate',null=True)
+    test_rate = models.CharField(name='Rate',null=False,max_length=3)
 
 
     def __str__(self):
